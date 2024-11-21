@@ -50,9 +50,9 @@ class _SplashScreenState extends State<SplashScreen> {
               ),
               const SizedBox(height: 20), // Espacio entre el icono y el texto
               const Text(
-                'Pip',
+                'PIP!',
                 style: TextStyle(
-                  fontFamily: 'Poppins', // Nombre de la fuente personalizada
+                  fontFamily: 'Poppins-Bold', // Nombre de la fuente personalizada
                   fontSize: 24, // Tamaño de la fuente
                   color: Colors.white, // Color del texto
                 ),

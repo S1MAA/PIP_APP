@@ -39,3 +39,7 @@ flutter:
     - family: Poppins-Regular # Nombre de la fuente
       fonts:
         - asset: lib/assets/fonts/Poppins-Regular.ttf
+
+    - family: Poppins-Medium # Nombre de la fuente
+      fonts:
+        - asset: lib/assets/fonts/Poppins-Medium.ttf
