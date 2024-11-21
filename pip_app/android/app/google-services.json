@@ -1,0 +1,29 @@
+{
+  "project_info": {
+    "project_number": "819041910937",
+    "project_id": "pip-app-data",
+    "storage_bucket": "pip-app-data.firebasestorage.app"
+  },
+  "client": [
+    {
+      "client_info": {
+        "mobilesdk_app_id": "1:819041910937:android:eebbcbd8e93f2e17b87808",
+        "android_client_info": {
+          "package_name": "com.example.pip_app"
+        }
+      },
+      "oauth_client": [],
+      "api_key": [
+        {
+          "current_key": "AIzaSyA6BmjN6t4dA38LwbvhjUFp-DjxKRjsw_A"
+        }
+      ],
+      "services": {
+        "appinvite_service": {
+          "other_platform_oauth_client": []
+        }
+      }
+    }
+  ],
+  "configuration_version": "1"
+}
