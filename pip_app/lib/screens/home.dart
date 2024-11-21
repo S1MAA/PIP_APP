@@ -31,25 +31,26 @@ class _MantenedorState extends State<Mantenedor> {
   Widget build(BuildContext context) {
     return Scaffold(
       body: _screens[_currentIndex],
-      bottomNavigationBar: BottomNavigationBar(
-        currentIndex: _currentIndex,
-        onTap: _onItemTapped,
-        items: const [
-          BottomNavigationBarItem(
-            icon: Icon(Icons.group),
-            label: 'Profesores',
+      bottomNavigationBar: NavigationBar(
+        selectedIndex: _currentIndex,
+        onDestinationSelected: _onItemTapped,
+        indicatorColor: const Color.fromARGB(255, 157, 56, 170),
+        destinations: const <NavigationDestination>[
+          NavigationDestination(
+            icon: Icon(Icons.local_shipping),
+            label: 'Seguimiento',
           ),
-          BottomNavigationBarItem(
-            icon: Icon(Icons.search),
-            label: 'Búsqueda',
+          NavigationDestination(
+            icon: Icon(Icons.send),
+            label: 'Enviar',
           ),
-          BottomNavigationBarItem(
-            icon: Icon(Icons.newspaper),
-            label: 'Blog',
+          NavigationDestination(
+            icon: Icon(Icons.calculate),
+            label: 'Cotizar',
           ),
-          BottomNavigationBarItem(
-            icon: Icon(Icons.message),
-            label: 'Mensajes',
+          NavigationDestination(
+            icon: Icon(Icons.person),
+            label: 'Perfil',
           ),
         ],
       ),
