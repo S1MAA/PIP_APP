@@ -8,6 +8,7 @@ AppBar buildAppBar(BuildContext context) {
     title: const Text(
       'Whatsapp',
       style: TextStyle(
+        fontFamily: 'Poppins-Regular',
         fontSize: 20,
         color: Colors.white,
       ),
