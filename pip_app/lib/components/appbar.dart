@@ -4,12 +4,12 @@ import 'package:flutter/material.dart';
 AppBar buildAppBar(BuildContext context) {
   return AppBar(
     backgroundColor: Theme.of(context).colorScheme.primary,
-    toolbarHeight: 64.0,
+    toolbarHeight: 240.0,
     title: const Text(
-      'Whatsapp',
+      'Seguimiento',
       style: TextStyle(
         fontFamily: 'Poppins-Regular',
-        fontSize: 20,
+        fontSize: 23,
         color: Colors.white,
       ),
     ),

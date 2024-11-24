@@ -1,56 +1,101 @@
 import 'package:flex_color_scheme/flex_color_scheme.dart';
 import 'package:flutter/material.dart';
-/// The [AppTheme] defines light and dark themes for the app.
-///
-/// Theme setup for FlexColorScheme package v8.
-/// Use same major flex_color_scheme package version. If you use a
-/// lower minor version, some properties may not be supported.
-/// In that case, remove them after copying this theme to your
-/// app or upgrade package to version 8.0.1.
-///
-/// Use in [MaterialApp] like this:
-///
-/// MaterialApp(
-///  theme: AppTheme.light,
-///  darkTheme: AppTheme.dark,
-///  :
-/// );
+
+/// Definición de temas claro y oscuro para la aplicación.
 class AppTheme {
-  // The defined light theme.
-  static ThemeData lightTheme = FlexThemeData.light(
-    scheme: FlexScheme.materialBaseline, //NOMBRE DEL THEME
-    surfaceMode: FlexSurfaceMode.levelSurfacesLowScaffold,
-    blendLevel: 7,
-    lightIsWhite: true,
+  // Tema claro
+  static ThemeData light = FlexThemeData.light(
+    colors: const FlexSchemeColor(
+      primary: Color(0xff3d0079),
+      primaryContainer: Color(0xfff5f5f5),
+      secondary: Color(0xfffa9f16),
+      secondaryContainer: Color(0xff9d38aa),
+      tertiary: Color(0xff000000),
+      tertiaryContainer: Color(0xffd5bbee),
+      appBarColor: Color(0xff9d38aa),
+      error: Color(0xffff4022),
+      errorContainer: Color(0xffffdad6),
+    ),
     subThemesData: const FlexSubThemesData(
-      blendOnLevel: 10,
-      // ignore: deprecated_member_use
-      useTextTheme: true,
+      interactionEffects: true,
+      tintedDisabledControls: true,
       useM2StyleDividerInM3: true,
+      switchSchemeColor: SchemeColor.secondary,
+      inputDecoratorSchemeColor: SchemeColor.primaryContainer,
+      inputDecoratorIsFilled: true,
+      inputDecoratorBorderSchemeColor: SchemeColor.secondary,
+      inputDecoratorBorderType: FlexInputBorderType.outline,
+      inputDecoratorRadius: 7.0,
+      inputDecoratorUnfocusedHasBorder: false,
+      fabUseShape: true,
+      fabAlwaysCircular: true,
       alignedDropdown: true,
-      useInputDecoratorThemeInDialogs: true,
+      appBarBackgroundSchemeColor: SchemeColor.primary,
+      bottomAppBarSchemeColor: SchemeColor.primaryContainer,
+      tabBarItemSchemeColor: SchemeColor.primaryContainer,
+      tabBarUnselectedItemSchemeColor: SchemeColor.outlineVariant,
+      tabBarIndicatorSchemeColor: SchemeColor.primaryContainer,
+      bottomNavigationBarSelectedLabelSchemeColor: SchemeColor.onPrimary,
+      bottomNavigationBarMutedUnselectedLabel: true,
+      bottomNavigationBarSelectedIconSchemeColor: SchemeColor.onPrimary,
+      bottomNavigationBarMutedUnselectedIcon: true,
+      bottomNavigationBarBackgroundSchemeColor: SchemeColor.primary,
+      navigationBarSelectedLabelSchemeColor: SchemeColor.onPrimary,
+      navigationBarUnselectedLabelSchemeColor: SchemeColor.primaryContainer,
+      navigationBarSelectedIconSchemeColor: SchemeColor.onPrimary,
+      navigationBarUnselectedIconSchemeColor: SchemeColor.primaryContainer,
+      navigationBarIndicatorSchemeColor: SchemeColor.secondaryContainer,
+      navigationBarBackgroundSchemeColor: SchemeColor.primary,
+      navigationRailUseIndicator: true,
+      navigationRailBackgroundSchemeColor: SchemeColor.primaryContainer,
+      navigationRailLabelType: NavigationRailLabelType.all,
     ),
     visualDensity: FlexColorScheme.comfortablePlatformDensity,
     useMaterial3: true,
-    swapLegacyOnMaterial3: true,
   );
 
-
-  // The defined dark theme.
-  static ThemeData darkTheme = FlexThemeData.dark(
-    scheme: FlexScheme.materialBaseline, //NOMBRE DEL THEME
-    surfaceMode: FlexSurfaceMode.levelSurfacesLowScaffold,
-    blendLevel: 13,
+  // Tema oscuro
+  static ThemeData dark = FlexThemeData.dark(
+    colors: const FlexSchemeColor(
+      primary: Color(0xff9fc9ff),
+      primaryContainer: Color(0xff00325b),
+      secondary: Color(0xffffb59d),
+      secondaryContainer: Color(0xff872100),
+      tertiary: Color(0xff86d2e1),
+      tertiaryContainer: Color(0xff004e59),
+      appBarColor: Color(0xff9d38aa),
+      error: Color(0xffffb4ab),
+      errorContainer: Color(0xff93000a),
+    ),
     subThemesData: const FlexSubThemesData(
-      blendOnLevel: 20,
-      // ignore: deprecated_member_use
-      useTextTheme: true,
+      interactionEffects: true,
+      tintedDisabledControls: true,
+      blendOnColors: true,
       useM2StyleDividerInM3: true,
+      switchSchemeColor: SchemeColor.secondary,
+      inputDecoratorIsFilled: true,
+      inputDecoratorBorderType: FlexInputBorderType.outline,
+      inputDecoratorRadius: 7.0,
+      inputDecoratorUnfocusedHasBorder: false,
+      fabUseShape: true,
+      fabAlwaysCircular: true,
       alignedDropdown: true,
-      useInputDecoratorThemeInDialogs: true,
+      bottomNavigationBarSelectedLabelSchemeColor: SchemeColor.onPrimary,
+      bottomNavigationBarMutedUnselectedLabel: true,
+      bottomNavigationBarSelectedIconSchemeColor: SchemeColor.onPrimary,
+      bottomNavigationBarMutedUnselectedIcon: true,
+      bottomNavigationBarBackgroundSchemeColor: SchemeColor.primary,
+      navigationBarSelectedLabelSchemeColor: SchemeColor.onPrimary,
+      navigationBarUnselectedLabelSchemeColor: SchemeColor.secondary,
+      navigationBarSelectedIconSchemeColor: SchemeColor.onPrimary,
+      navigationBarUnselectedIconSchemeColor: SchemeColor.secondary,
+      navigationBarIndicatorSchemeColor: SchemeColor.secondaryContainer,
+      navigationBarBackgroundSchemeColor: SchemeColor.primary,
+      navigationRailUseIndicator: true,
+      navigationRailBackgroundSchemeColor: SchemeColor.primaryContainer,
+      navigationRailLabelType: NavigationRailLabelType.all,
     ),
     visualDensity: FlexColorScheme.comfortablePlatformDensity,
     useMaterial3: true,
-    swapLegacyOnMaterial3: true,
   );
 }

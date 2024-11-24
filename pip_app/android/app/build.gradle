@@ -32,6 +32,14 @@ android {
         targetSdk = flutter.targetSdkVersion
         versionCode = flutter.versionCode
         versionName = flutter.versionName
+
+        android {
+            packagingOptions {
+                jniLibs { 
+                    useLegacyPackaging = true
+                }
+            }
+        }
     }
 
     buildTypes {

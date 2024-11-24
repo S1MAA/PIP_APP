@@ -15,33 +15,31 @@ class _FormularioScreenState extends State<FormularioScreen> {
   final TextEditingController _lugarOrigen = TextEditingController();
   final TextEditingController _lugarDestino = TextEditingController();
 
-//AQUÍ SE CONECTA CON LA BASE DE DATOS
+// Conexión con la base de datos y validación
   Future<void> _submitForm(BuildContext context) async {
     if (_formKey.currentState!.validate()) {
       try {
         await FirebaseFirestore.instance.collection('origen').add({
-          'origen': _lugarOrigen.text,      
+          'origen': _lugarOrigen.text,
         });
 
         await FirebaseFirestore.instance.collection('destino').add({
-          'destino': _lugarDestino.text,      
+          'destino': _lugarDestino.text,
         });
 
         _lugarOrigen.clear();
         _lugarDestino.clear();
 
-        // ignore: use_build_context_synchronously
-        Navigator.of(context).pop();
-
-        // ignore: use_build_context_synchronously
+        // Mostrar mensaje de éxito
         ScaffoldMessenger.of(context).showSnackBar(
           const SnackBar(content: Text('Datos guardados exitosamente')),
         );
       } catch (e) {
-        // ignore: use_build_context_synchronously
+        // Mostrar mensaje de error
         ScaffoldMessenger.of(context).showSnackBar(
           const SnackBar(content: Text('Error al guardar los datos')),
         );
+        rethrow; // Para que el botón no navegue si ocurre un error
       }
     }
   }
@@ -49,7 +47,7 @@ class _FormularioScreenState extends State<FormularioScreen> {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-      body: SingleChildScrollView( // Recuérdame....ingleChildScrollView
+      body: SingleChildScrollView(
         child: Padding(
           padding: EdgeInsets.only(
             bottom: MediaQuery.of(context).viewInsets.bottom,
@@ -162,10 +160,12 @@ class _FormularioScreenState extends State<FormularioScreen> {
                 const SizedBox(height: 8),
                 TextFormField(
                   controller: _lugarOrigen,
-                  decoration: const InputDecoration(labelText: 'Escribe la localidad de origen', 
-                  labelStyle: TextStyle(fontFamily: 'Poppins-Regular',
-                  fontSize: 12,
-                  color: Color.fromARGB(255, 196, 196, 196))),
+                  decoration: const InputDecoration(
+                      labelText: 'Escribe la localidad de origen',
+                      labelStyle: TextStyle(
+                          fontFamily: 'Poppins-Regular',
+                          fontSize: 12,
+                          color: Color.fromARGB(255, 196, 196, 196))),
                   validator: (value) {
                     if (value == null || value.isEmpty) {
                       return 'Por favor, ingrese el origen';
@@ -173,7 +173,6 @@ class _FormularioScreenState extends State<FormularioScreen> {
                     return null;
                   },
                 ),
-
                 const SizedBox(height: 16),
                 const Text(
                   'Destino',
@@ -182,10 +181,12 @@ class _FormularioScreenState extends State<FormularioScreen> {
                 const SizedBox(height: 8),
                 TextFormField(
                   controller: _lugarDestino,
-                  decoration: const InputDecoration(labelText: 'Escribe la localidad de destino', 
-                  labelStyle: TextStyle(fontFamily: 'Poppins-Regular',
-                  fontSize: 12,
-                  color: Color.fromARGB(255, 196, 196, 196))),
+                  decoration: const InputDecoration(
+                      labelText: 'Escribe la localidad de destino',
+                      labelStyle: TextStyle(
+                          fontFamily: 'Poppins-Regular',
+                          fontSize: 12,
+                          color: Color.fromARGB(255, 196, 196, 196))),
                   validator: (value) {
                     if (value == null || value.isEmpty) {
                       return 'Por favor, ingrese el destino';
@@ -193,31 +194,36 @@ class _FormularioScreenState extends State<FormularioScreen> {
                     return null;
                   },
                 ),
-              
                 const SizedBox(height: 20),
-                Positioned(
-                  bottom: 95, // Margen desde la parte inferior
-                  left: 90,  // Margen desde la parte derecha
+                Center(
                   child: SizedBox(
-                    width: 103, // Ancho del botón
+                    width: 103,
                     child: ElevatedButton(
                       onPressed: () async {
-                        // Ejecutar la función _submitForm
-                        await _submitForm(context);
-                        // Navegar a la nueva pantalla
-                        // ignore: use_build_context_synchronously
-                        Navigator.of(context).push(
-                          MaterialPageRoute(
-                            builder: (context) => const BlogScreen(), //PONER LA SIGUIENTE PANTALLA
-                          ),
-                        );
+                        if (_formKey.currentState!.validate()) {
+                          try {
+                            await _submitForm(context);
+
+                            // Si se guardaron los datos correctamente, navegar
+                            if (context.mounted) {
+                              Navigator.of(context).push(
+                                MaterialPageRoute(
+                                  builder: (context) =>
+                                      const Cotizar(), // Siguiente pantalla
+                                ),
+                              );
+                            }
+                          } catch (_) {
+                            // El manejo del error ya está en _submitForm
+                          }
+                        }
                       },
                       style: ElevatedButton.styleFrom(
                         backgroundColor: Theme.of(context).colorScheme.primary,
                         foregroundColor: Colors.white,
-                        padding: const EdgeInsets.symmetric(vertical: 16), // Altura del botón
+                        padding: const EdgeInsets.symmetric(vertical: 16),
                         shape: RoundedRectangleBorder(
-                          borderRadius: BorderRadius.circular(12), // Bordes redondeados
+                          borderRadius: BorderRadius.circular(12),
                         ),
                       ),
                       child: const Text(
@@ -233,7 +239,6 @@ class _FormularioScreenState extends State<FormularioScreen> {
               ],
             ),
           ),
-          
         ),
       ),
     );

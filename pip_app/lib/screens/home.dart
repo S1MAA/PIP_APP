@@ -15,9 +15,9 @@ class _MantenedorState extends State<Mantenedor> {
 
   final List<Widget> _screens = [
     const HomeScreen(),
-    const SearchScreen(),
-    const BlogScreen(),
-    const CallsScreen(),
+    const Enviar(),
+    const Cotizar(),
+    const Perfil(),
   ];
 
   void _onItemTapped(int index) {
@@ -28,46 +28,35 @@ class _MantenedorState extends State<Mantenedor> {
 
   @override
   Widget build(BuildContext context) {
-    return Scaffold(
-      body: _screens[_currentIndex],
-      bottomNavigationBar: NavigationBarTheme(
-        data: NavigationBarThemeData(
-          labelTextStyle: WidgetStateProperty.resolveWith((states) {
-              return const TextStyle(color: Colors.white, fontFamily: 'Poppins-Regular',fontSize: 8);
-          }),
-          iconTheme: WidgetStateProperty.resolveWith((states) {
-              return const IconThemeData(color: Colors.white);
-          }),
-          indicatorColor: Theme.of(context).colorScheme.primaryContainer,
-          backgroundColor: Theme.of(context).colorScheme.primaryFixedDim,
+  return Scaffold(
+    body: _screens[_currentIndex],
+    bottomNavigationBar: NavigationBar(
+      selectedIndex: _currentIndex,
+      onDestinationSelected: _onItemTapped,
+      destinations: const [
+        NavigationDestination(
+          icon: Icon(Icons.group),
+          label: 'Profesores',
         ),
-        child: NavigationBar(
-          selectedIndex: _currentIndex,
-          onDestinationSelected: _onItemTapped,
-          destinations: const <NavigationDestination>[
-            NavigationDestination(
-              icon: Icon(Icons.local_shipping),
-              label: 'Seguimiento',
-            ),
-            NavigationDestination(
-              icon: Icon(Icons.send),
-              label: 'Enviar',
-            ),
-            NavigationDestination(
-              icon: Icon(Icons.calculate),
-              label: 'Cotizar',
-            ),
-            NavigationDestination(
-              icon: Icon(Icons.person),
-              label: 'Perfil',
-            ),
-          ],
+        NavigationDestination(
+          icon: Icon(Icons.search),
+          label: 'Búsqueda',
         ),
-      ),
-    );
-  }
+        NavigationDestination(
+          icon: Icon(Icons.newspaper),
+          label: 'Blog',
+        ),
+        NavigationDestination(
+          icon: Icon(Icons.message),
+          label: 'Mensajes',
+        ),
+      ],
+    ),
+  );
+}
 }
 
+//----------------PANTALLA rrrreee----------------
 class HomeScreen extends StatelessWidget {
   const HomeScreen({super.key});
 
@@ -103,7 +92,8 @@ class HomeScreen extends StatelessWidget {
               return ListTile(
                 title: Text(
                   '${usuario['nombre']}',
-                  style: const TextStyle(fontWeight: FontWeight.bold), // Título en negrita
+                  style: const TextStyle(
+                      fontWeight: FontWeight.bold), // Título en negrita
                 ),
                 subtitle: Text('${usuario['telefono']}'), // Muestra el teléfono
               );
@@ -152,15 +142,23 @@ class HomeScreen extends StatelessWidget {
   }
 }
 
-class SearchScreen extends StatelessWidget {
-  const SearchScreen({super.key});
+//----------------PANTALLA ENVIAR----------------
+class Enviar extends StatelessWidget {
+  const Enviar({super.key});
 
   @override
   Widget build(BuildContext context) {
     return Scaffold(
       appBar: AppBar(
-        title: const Text('Enviar'),
-        
+        backgroundColor: Theme.of(context).colorScheme.primary,
+        toolbarHeight: 64.0,
+        title: const Text(
+          'Enviar',
+          style: TextStyle(
+            fontFamily: 'Poppins-Regular',
+            fontSize: 23,
+          ),
+        ),
       ),
       body: const Center(
         child: Text('Enviar'),
@@ -169,12 +167,12 @@ class SearchScreen extends StatelessWidget {
   }
 }
 
-class BlogScreen extends StatelessWidget {
-  const BlogScreen({super.key});
+//----------------PANTALLA COTIZAR----------------
+class Cotizar extends StatelessWidget {
+  const Cotizar({super.key});
 
   @override
   Widget build(BuildContext context) {
-
     return Scaffold(
       appBar: AppBar(
         backgroundColor: Theme.of(context).colorScheme.primary,
@@ -184,14 +182,12 @@ class BlogScreen extends StatelessWidget {
           style: TextStyle(
             fontFamily: 'Poppins-Regular',
             fontSize: 23,
-            color: Colors.white, // El título será blanco
           ),
         ),
         actions: [
           IconButton(
             icon: const Icon(
               Icons.more_vert,
-              color: Colors.white, // El ícono también será blanco
             ),
             onPressed: () {},
           ),
@@ -204,8 +200,9 @@ class BlogScreen extends StatelessWidget {
   }
 }
 
-class CallsScreen extends StatelessWidget {
-  const CallsScreen({super.key});
+//----------------PANTALLA PERFIL----------------
+class Perfil extends StatelessWidget {
+  const Perfil({super.key});
 
   @override
   Widget build(BuildContext context) {
@@ -218,14 +215,12 @@ class CallsScreen extends StatelessWidget {
           style: TextStyle(
             fontFamily: 'Poppins-Regular',
             fontSize: 23,
-            color: Colors.white, // El título será blanco
           ),
         ),
         actions: [
           IconButton(
             icon: const Icon(
               Icons.more_vert,
-              color: Colors.white, // El ícono también será blanco
             ),
             onPressed: () {},
           ),
