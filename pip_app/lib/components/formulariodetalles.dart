@@ -1,6 +1,8 @@
 import 'package:flutter/material.dart';
 import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:pip_app/screens/home.dart';
+import 'package:flutter/foundation.dart';
+
 
 class FormularioDetalles extends StatefulWidget {
   final String origen; // Recibe el origen de la primera pantalla
@@ -179,8 +181,67 @@ class _FormularioDetallesState extends State<FormularioDetalles> {
               ],
             ),
 
+
+
             // Encabezado
             const SizedBox(height: 30),
+
+            Row(
+              mainAxisAlignment: MainAxisAlignment.center,
+              children: [
+                Column(
+                  children: [
+                    GestureDetector(
+                      onTap: () {
+                        // Acción para el botón de paquete
+                        if (kDebugMode) {
+                          print('Paquete seleccionado');
+                        }
+                      },
+                      child: Column(
+                        children: [
+                          ClipRRect(
+                            borderRadius: BorderRadius.circular(
+                                18), // Esquinas redondeadas
+                            child: Image.asset(
+                              'lib/assets/images/paquete.png', // Ruta de tu imagen de paquete
+                              height: 110,
+                              width: 110,
+                            ),
+                          ),
+                        ],
+                      ),
+                    ),
+                  ],
+                ),
+                const SizedBox(width: 60),
+                Column(
+                  children: [
+                    GestureDetector(
+                      onTap: () {
+                        // Acción para el botón de documento
+                        print('Documento seleccionado');
+                      },
+                      child: Column(
+                        children: [
+                          ClipRRect(
+                            borderRadius: BorderRadius.circular(
+                                18), // Esquinas redondeadas
+                            child: Image.asset(
+                              'lib/assets/images/doc.png', // Ruta de tu imagen de documento
+                              height: 110,
+                              width: 110,
+                            ),
+                          ),
+                        ],
+                      ),
+                    ),
+                  ],
+                ),
+              ],
+            ),
+
+
             const Text(
               'Detalles de envío',
               style: TextStyle(fontSize: 19, fontFamily: 'Poppins-Medium'),

@@ -29,7 +29,8 @@ flutter:
   assets:
     - lib/assets/images/logo_pip.png
     - lib/assets/images/frogicon.jpg
-    
+    - lib/assets/images/paquete.png
+    - lib/assets/images/doc.png
 
   fonts:
     - family: Poppins-Bold # Nombre de la fuente
