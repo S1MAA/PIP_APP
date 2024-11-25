@@ -2,6 +2,7 @@ import 'package:flutter/material.dart';
 import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:pip_app/components/appbar.dart'; // Acuérdate que modular estilos es el nombre MI PROYECTO
 import 'package:pip_app/components/formulario.dart';
+import 'package:pip_app/components/formulariodetalles.dart';
 
 class Mantenedor extends StatefulWidget {
   const Mantenedor({super.key});
@@ -14,10 +15,11 @@ class _MantenedorState extends State<Mantenedor> {
   int _currentIndex = 0;
 
   final List<Widget> _screens = [
-    const HomeScreen(),
-    const Enviar(),
-    const Cotizar(),
-    const Perfil(),
+  const HomeScreen(),
+  const Enviar(),
+  const Cotizar(),
+  const FormularioDetalles(origen: '', destino: ''), // Pantalla de detalles
+  const Perfil(),
   ];
 
   void _onItemTapped(int index) {
