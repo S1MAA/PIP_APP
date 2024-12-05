@@ -42,9 +42,9 @@ class _CotizarFormState extends State<CotizarForm> {
 
     try {
       // Subir los datos a Firebase
-      await FirebaseFirestore.instance.collection('Cotizaciones').add({
-        'origen': _lugarOrigen, // Origen recibido de la primera pantalla
-        'destino': _lugarDestino, // Destino recibido de la primera pantalla
+      await FirebaseFirestore.instance.collection('CotizacionData').add({
+        'origen': _lugarOrigen.text, // Extraer texto del controlador
+        'destino': _lugarDestino.text, // Extraer texto del controlador
         'peso': _pesoController.text,
         'largo': _largoController.text,
         'ancho': _anchoController.text,
@@ -56,14 +56,6 @@ class _CotizarFormState extends State<CotizarForm> {
       if (context.mounted) {
         ScaffoldMessenger.of(context).showSnackBar(
           const SnackBar(content: Text('Datos guardados exitosamente')),
-        );
-
-        // Navegar a la pantalla de cotización
-        Navigator.of(context).pushReplacement(
-          MaterialPageRoute(
-            builder: (context) =>
-                const Placeholder(), // Reemplaza con la pantalla correspondiente
-          ),
         );
       }
     } catch (e) {
