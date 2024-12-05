@@ -67,7 +67,7 @@ class HomeScreen extends StatelessWidget {
     return Scaffold(
       appBar: buildAppBar(context), // Usando la función de appbar.dart
       body: StreamBuilder<QuerySnapshot>(
-        stream: FirebaseFirestore.instance.collection('usuarios').snapshots(),
+        stream: FirebaseFirestore.instance.collection('Seguimiento').snapshots(),
         builder: (context, snapshot) {
           if (snapshot.connectionState == ConnectionState.waiting) {
             return const Center(child: CircularProgressIndicator());
@@ -78,26 +78,43 @@ class HomeScreen extends StatelessWidget {
           }
 
           if (!snapshot.hasData || snapshot.data!.docs.isEmpty) {
-            return const Center(child: Text('No hay registros disponibles.'));
+            return const Center(
+              child: Text('No hay registros disponibles.'),
+            );
           }
 
-          final usuarios = snapshot.data!.docs;
+          final seguimientos = snapshot.data!.docs;
 
-          return ListView.separated(
-            itemCount: usuarios.length,
-            separatorBuilder: (context, index) => const Divider(
-              color: Color.fromARGB(255, 235, 235, 235), // Color del divisor
-              thickness: 1, // Grosor del divisor
-            ),
+          return ListView.builder(
+            itemCount: seguimientos.length,
             itemBuilder: (context, index) {
-              final usuario = usuarios[index].data() as Map<String, dynamic>;
-              return ListTile(
-                title: Text(
-                  '${usuario['nombre']}',
-                  style: const TextStyle(
-                      fontWeight: FontWeight.bold), // Título en negrita
+              final seguimiento = seguimientos[index].data() as Map<String, dynamic>;
+              return Card(
+                margin: const EdgeInsets.symmetric(vertical: 8, horizontal: 16),
+                elevation: 4,
+                child: Padding(
+                  padding: const EdgeInsets.all(16.0),
+                  child: Column(
+                    crossAxisAlignment: CrossAxisAlignment.start,
+                    children: [
+                      Text(
+                        seguimiento['segumiento'] ?? 'Sin seguimiento',
+                        style: const TextStyle(
+                          fontSize: 18,
+                          fontWeight: FontWeight.bold,
+                        ),
+                      ),
+                      const SizedBox(height: 8),
+                      Text(
+                        'Fecha: ${seguimiento['timestamp'] != null ? (seguimiento['timestamp'] as Timestamp).toDate().toString() : 'Sin fecha'}',
+                        style: const TextStyle(
+                          fontSize: 14,
+                          color: Colors.grey,
+                        ),
+                      ),
+                    ],
+                  ),
                 ),
-                subtitle: Text('${usuario['telefono']}'), // Muestra el teléfono
               );
             },
           );

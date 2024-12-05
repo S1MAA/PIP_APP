@@ -28,7 +28,7 @@ class _FormularioScreenState extends State<FormularioScreen> {
     if (!_camposCompletos()) {
       ScaffoldMessenger.of(context).showSnackBar(
         const SnackBar(
-          content: Text('Por favor, complete todos los campos.'),
+          content: Text('Por favor, complete el campo.'),
           duration: Duration(seconds: 3),
         ),
       );
