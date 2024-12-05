@@ -2,8 +2,6 @@ import 'package:flutter/material.dart';
 import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:pip_app/components/appbar.dart'; // Acuérdate que modular estilos es el nombre MI PROYECTO
 import 'package:pip_app/components/formulario.dart';
-import 'package:pip_app/components/formulariodetalles.dart';
-
 
 // HOLA PROFE EL PROBLEMA ES QUE LA NAVIGATIONBAR NO SE VE, Y CUANDO SE HACE EL FORMULARIO EN ENVIAR CUANDO SE PONE SIGUIENTE NO SE VE LA NAVIGATION BAR
 
@@ -21,7 +19,6 @@ class _MantenedorState extends State<Mantenedor> {
   const HomeScreen(),
   const Enviar(),
   const Cotizar(),
-  const FormularioDetalles(origen: '', destino: ''), // Pantalla de detalles
   const Perfil(),
   ];
 
