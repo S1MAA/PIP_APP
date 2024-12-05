@@ -92,6 +92,27 @@ class _FormularioDetallesState extends State<FormularioDetalles> {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
+
+      appBar: AppBar(
+        backgroundColor: Theme.of(context).colorScheme.primary,
+        toolbarHeight: 64.0,
+        title: const Text(
+          'Cotizar',
+          style: TextStyle(
+            fontFamily: 'Poppins-Regular',
+            fontSize: 23,
+          ),
+        ),
+        actions: [
+          IconButton(
+            icon: const Icon(
+              Icons.more_vert,
+            ),
+            onPressed: () {},
+          ),
+        ],
+      ),
+
       body: SingleChildScrollView(
         padding: const EdgeInsets.all(16.0),
         child: Column(
@@ -220,7 +241,9 @@ class _FormularioDetallesState extends State<FormularioDetalles> {
                     GestureDetector(
                       onTap: () {
                         // Acción para el botón de documento
-                        print('Documento seleccionado');
+                        if (kDebugMode) {
+                          print('Documento seleccionado');
+                        }
                       },
                       child: Column(
                         children: [

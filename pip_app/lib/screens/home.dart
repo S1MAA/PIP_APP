@@ -4,6 +4,9 @@ import 'package:pip_app/components/appbar.dart'; // Acuérdate que modular estil
 import 'package:pip_app/components/formulario.dart';
 import 'package:pip_app/components/formulariodetalles.dart';
 
+
+// HOLA PROFE EL PROBLEMA ES QUE LA NAVIGATIONBAR NO SE VE, Y CUANDO SE HACE EL FORMULARIO EN ENVIAR CUANDO SE PONE SIGUIENTE NO SE VE LA NAVIGATION BAR
+
 class Mantenedor extends StatefulWidget {
   const Mantenedor({super.key});
   @override
