@@ -61,6 +61,8 @@ class _MantenedorState extends State<Mantenedor> {
 
 
 //-----PANTALLA SEGUIMIENTO---------
+//-----PANTALLA SEGUIMIENTO---------
+
 class HomeScreen extends StatelessWidget {
   const HomeScreen({super.key});
 
@@ -69,131 +71,153 @@ class HomeScreen extends StatelessWidget {
     return Scaffold(
       appBar: buildAppBar(context),
       // Usando la función de appbar.dart
-      body: StreamBuilder<QuerySnapshot>(
-        stream:
-            FirebaseFirestore.instance.collection('Seguimiento').snapshots(),
-        builder: (context, snapshot) {
-          if (snapshot.connectionState == ConnectionState.waiting) {
-            return const Center(child: CircularProgressIndicator());
-          }
+      body: Column(
+        crossAxisAlignment: CrossAxisAlignment.start,
+        children: [
+          // Título agregado
+          const Padding(
+            padding: EdgeInsets.all(16.0),
+            child: Text(
+              'Actividad reciente',
+              style: TextStyle(
+                fontFamily: 'Poppins-Regular',
+                fontSize: 18,
+              ),
+            ),
+          ),
+          // Lista de tarjetas
+          Expanded(
+            child: StreamBuilder<QuerySnapshot>(
+              stream: FirebaseFirestore.instance
+                  .collection('Seguimiento')
+                  .snapshots(),
+              builder: (context, snapshot) {
+                if (snapshot.connectionState == ConnectionState.waiting) {
+                  return const Center(child: CircularProgressIndicator());
+                }
 
-          if (snapshot.hasError) {
-            return Center(child: Text('Error: ${snapshot.error}'));
-          }
+                if (snapshot.hasError) {
+                  return Center(child: Text('Error: ${snapshot.error}'));
+                }
 
-          if (!snapshot.hasData || snapshot.data!.docs.isEmpty) {
-            return const Center(
-              child: Text('No hay registros disponibles.'),
-            );
-          }
+                if (!snapshot.hasData || snapshot.data!.docs.isEmpty) {
+                  return const Center(
+                    child: Text('No hay registros disponibles.'),
+                  );
+                }
 
-          final seguimientos = snapshot.data!.docs;
+                final seguimientos = snapshot.data!.docs;
 
-          return ListView.builder(
-            itemCount: seguimientos.length,
-            itemBuilder: (context, index) {
-              final seguimiento =
-                  seguimientos[index].data() as Map<String, dynamic>;
-              return Card(
-                margin: const EdgeInsets.symmetric(vertical: 8, horizontal: 16),
-                elevation: 4,
-                child: Padding(
-                  padding: const EdgeInsets.all(16.0),
-                  child: Column(
-                    crossAxisAlignment: CrossAxisAlignment.start,
-                    children: [
-                      // Título y fecha
-                      const SizedBox(height: 16),
-                      // Contenido de la tarjeta (la card interna)
-                      Row(
-                        children: [
-                          // Imagen del paquete
-                          Container(
-                            width: 60,
-                            height: 60,
-                            decoration: BoxDecoration(
-                              borderRadius: BorderRadius.circular(8),
-                              image: const DecorationImage(
-                                image:
-                                    AssetImage('lib/assets/images/paquete.png'),
-                                fit: BoxFit.cover,
-                              ),
-                            ),
-                          ),
-                          const SizedBox(width: 16),
-                          // Información del paquete
-                          Expanded(
-                            child: Column(
-                              crossAxisAlignment: CrossAxisAlignment.start,
+                return ListView.builder(
+                  itemCount: seguimientos.length,
+                  itemBuilder: (context, index) {
+                    final seguimiento =
+                        seguimientos[index].data() as Map<String, dynamic>;
+                    return Card(
+                      margin: const EdgeInsets.symmetric(
+                          vertical: 8, horizontal: 16),
+                      elevation: 4,
+                      child: Padding(
+                        padding: const EdgeInsets.all(16.0),
+                        child: Column(
+                          crossAxisAlignment: CrossAxisAlignment.start,
+                          children: [
+                            Row(
                               children: [
-                                Text(
-                                  seguimiento['seguimiento'] ??
-                                      'Sin seguimiento',
-                                  style: const TextStyle(
-                                    fontSize: 18,
-                                    fontWeight: FontWeight.bold,
+                                // Imagen del paquete
+                                Container(
+                                  width: 60,
+                                  height: 60,
+                                  decoration: BoxDecoration(
+                                    borderRadius: BorderRadius.circular(8),
+                                    image: const DecorationImage(
+                                      image: AssetImage(
+                                          'lib/assets/images/paquete.png'),
+                                      fit: BoxFit.cover,
+                                    ),
                                   ),
                                 ),
-                                const SizedBox(height: 8),
-                                Row(
-                                  children: [
-                                    const Text(
-                                      'Estado:',
-                                      style: TextStyle(
-                                        fontSize: 14,
-                                        fontWeight: FontWeight.w400,
+                                const SizedBox(width: 16),
+                                // Información del paquete
+                                Expanded(
+                                  child: Column(
+                                    crossAxisAlignment:
+                                        CrossAxisAlignment.start,
+                                    children: [
+                                      Text(
+                                        seguimiento['seguimiento'] ??
+                                            'Sin seguimiento',
+                                        style: const TextStyle(
+                                          fontSize: 16,
+                                          fontFamily: 'Poppins-Regular',
+                                          fontWeight: FontWeight.bold,
+                                        ),
                                       ),
-                                    ),
-                                    const SizedBox(width: 8),
-                                    Row(
-                                      children: [
-                                        Container(
-                                          width: 10,
-                                          height: 10,
-                                          decoration: const BoxDecoration(
-                                            color: Colors.green,
-                                            shape: BoxShape.circle,
+                                      const SizedBox(height: 8),
+                                      Row(
+                                        children: [
+                                          const Text(
+                                            'Estado:',
+                                            style: TextStyle(
+                                              fontSize: 14,
+                                              fontFamily: 'Poppins-Regular',
+                                              fontWeight: FontWeight.w400,
+                                            ),
                                           ),
-                                        ),
-                                        const SizedBox(width: 4),
-                                        const Text(
-                                          'Entregado', // Cambia por datos dinámicos si es necesario
-                                          style: TextStyle(
-                                            fontSize: 14,
-                                            fontWeight: FontWeight.w400,
+                                          const SizedBox(width: 8),
+                                          Row(
+                                            children: [
+                                              Container(
+                                                width: 10,
+                                                height: 10,
+                                                decoration: const BoxDecoration(
+                                                  color: Colors.green,
+                                                  shape: BoxShape.circle,
+                                                ),
+                                              ),
+                                              const SizedBox(width: 4),
+                                              const Text(
+                                                'Entregado', // Cambia por datos dinámicos si es necesario
+                                                style: TextStyle(
+                                                  fontSize: 14,
+                                                  fontFamily: 'Poppins-Regular',
+                                                  fontWeight: FontWeight.w400,
+                                                ),
+                                              ),
+                                            ],
                                           ),
+                                        ],
+                                      ),
+                                      const SizedBox(height: 8),
+                                      const Text(
+                                        'Fecha estimada: Día mes año', // Cambia por datos dinámicos
+                                        style: TextStyle(
+                                          fontSize: 12,
+                                          fontFamily: 'Poppins-Regular',
+                                          fontWeight: FontWeight.w400,
+                                          color: Colors.grey,
                                         ),
-                                      ],
-                                    ),
-                                  ],
-                                ),
-                                const SizedBox(height: 8),
-                                const Text(
-                                  'Fecha estimada: Día mes año', // Cambia por datos dinámicos
-                                  style: TextStyle(
-                                    fontSize: 14,
-                                    fontWeight: FontWeight.w400,
-                                    color: Colors.grey,
+                                      ),
+                                    ],
                                   ),
+                                ),
+                                const Icon(
+                                  Icons.arrow_forward_ios,
+                                  size: 16,
+                                  color: Colors.grey,
                                 ),
                               ],
                             ),
-                          ),
-                          // Flecha
-                          const Icon(
-                            Icons.arrow_forward_ios,
-                            size: 16,
-                            color: Colors.grey,
-                          ),
-                        ],
+                          ],
+                        ),
                       ),
-                    ],
-                  ),
-                ),
-              );
-            },
-          );
-        },
+                    );
+                  },
+                );
+              },
+            ),
+          ),
+        ],
       ),
       floatingActionButton: FloatingActionButton(
         onPressed: () {

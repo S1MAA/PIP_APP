@@ -91,8 +91,86 @@ class _CotizarFormState extends State<CotizarForm> {
         child: Column(
           crossAxisAlignment: CrossAxisAlignment.start,
           children: [
-            const SizedBox(height: 30),
-            
+
+            Row(
+              children: [
+                Expanded(
+                  child: Form(
+                    child: Column(
+                      crossAxisAlignment: CrossAxisAlignment.start,
+                      mainAxisSize: MainAxisSize.min,
+                      children: [
+                        const SizedBox(height: 24),
+                        const Text(
+                          'Origen y destino',
+                          style: TextStyle(fontSize: 19, fontFamily: 'Poppins-Medium'),
+                        ),
+                        const SizedBox(height: 16),
+                        const Text(
+                          'Selecciona la localidad desde y hacia donde envías',
+                          style: TextStyle(fontSize: 16, fontFamily: 'Poppins-Regular'),
+                        ),
+                        const SizedBox(height: 12),
+                        const Text(
+                          'Origen',
+                          style: TextStyle(fontSize: 16, fontFamily: 'Poppins-Regular'),
+                        ),
+                        const SizedBox(height: 8),
+                        TextFormField(
+                          controller: _lugarOrigen,
+                          decoration: const InputDecoration(
+                            labelText: 'Escribe la localidad de origen',
+                            labelStyle: TextStyle(
+                              fontFamily: 'Poppins-Regular',
+                              fontSize: 12,
+                              color: Color.fromARGB(255, 196, 196, 196),
+                            ),
+                            errorStyle: TextStyle(
+                              fontSize: 12,
+                              color: Colors.red,
+                            ),
+                          ),
+                          validator: (value) {
+                            if (value == null || value.isEmpty) {
+                              return 'Por favor, complete los campos faltantes';
+                            }
+                            return null;
+                          },
+                        ),
+                        const SizedBox(height: 16),
+                        const Text(
+                          'Destino',
+                          style: TextStyle(fontSize: 16, fontFamily: 'Poppins-Regular'),
+                        ),
+                        const SizedBox(height: 8),
+                        TextFormField(
+                          controller: _lugarDestino,
+                          decoration: const InputDecoration(
+                            labelText: 'Escribe la localidad de destino',
+                            labelStyle: TextStyle(
+                              fontFamily: 'Poppins-Regular',
+                              fontSize: 12,
+                              color: Color.fromARGB(255, 196, 196, 196),
+                            ),
+                            errorStyle: TextStyle(
+                              fontSize: 12,
+                              color: Colors.red,
+                            ),
+                          ),
+                          validator: (value) {
+                            if (value == null || value.isEmpty) {
+                              return 'Por favor, complete los campos faltantes';
+                            }
+                            return null;
+                          },
+                        ),
+                        const SizedBox(height: 16),
+                      ],
+                    ),
+                  ),
+                ),
+              ],
+            ),
 
             Center(
               child: Column(
@@ -108,7 +186,7 @@ class _CotizarFormState extends State<CotizarForm> {
                       borderRadius: BorderRadius.circular(12),
                       child: Image.asset(
                         'lib/assets/images/paquetelarge.png',                       
-                        width: 310,
+                        width: 315,
                       ),
                     ),
                   ),
@@ -117,6 +195,7 @@ class _CotizarFormState extends State<CotizarForm> {
             ),
 
             const SizedBox(height: 20),
+
 
             const Text(
               'Detalles de envío',

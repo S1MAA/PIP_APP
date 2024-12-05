@@ -66,7 +66,9 @@ AppBar buildAppBar(BuildContext context) {
                   hintText: 'Número de seguimiento',
                   hintStyle: TextStyle(
                     color: Colors.grey[400], // Cambia el color del hint text
-                    fontSize: 14, // Tamaño de fuente del hint text
+                    fontSize: 14,
+                    fontFamily:
+                        'Poppins-Regular', // Tamaño de fuente del hint text
                   ),
                   prefixIcon: Icon(
                     Icons.search,
