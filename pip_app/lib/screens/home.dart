@@ -2,6 +2,7 @@ import 'package:flutter/material.dart';
 import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:pip_app/components/appbar.dart'; // Acuérdate que modular estilos es el nombre MI PROYECTO
 import 'package:pip_app/components/formulario.dart';
+import 'package:pip_app/components/cotizarform.dart';
 
 // HOLA PROFE EL PROBLEMA ES QUE LA NAVIGATIONBAR NO SE VE, Y CUANDO SE HACE EL FORMULARIO EN ENVIAR CUANDO SE PONE SIGUIENTE NO SE VE LA NAVIGATION BAR
 
@@ -30,44 +31,47 @@ class _MantenedorState extends State<Mantenedor> {
 
   @override
   Widget build(BuildContext context) {
-  return Scaffold(
-    body: _screens[_currentIndex],
-    bottomNavigationBar: NavigationBar(
-      selectedIndex: _currentIndex,
-      onDestinationSelected: _onItemTapped,
-      destinations: const [
-        NavigationDestination(
-          icon: Icon(Icons.group),
-          label: 'Profesores',
-        ),
-        NavigationDestination(
-          icon: Icon(Icons.search),
-          label: 'Búsqueda',
-        ),
-        NavigationDestination(
-          icon: Icon(Icons.newspaper),
-          label: 'Blog',
-        ),
-        NavigationDestination(
-          icon: Icon(Icons.message),
-          label: 'Mensajes',
-        ),
-      ],
-    ),
-  );
-}
+    return Scaffold(
+      body: _screens[_currentIndex],
+      bottomNavigationBar: NavigationBar(
+        selectedIndex: _currentIndex,
+        onDestinationSelected: _onItemTapped,
+        destinations: const [
+          NavigationDestination(
+            icon: Icon(Icons.local_shipping),
+            label: 'Seguimiento',
+          ),
+          NavigationDestination(
+            icon: Icon(Icons.near_me),
+            label: 'Enviar',
+          ),
+          NavigationDestination(
+            icon: Icon(Icons.calculate),
+            label: 'Cotizar',
+          ),
+          NavigationDestination(
+            icon: Icon(Icons.person),
+            label: 'Perfil',
+          ),
+        ],
+      ),
+    );
+  }
 }
 
-//----------------PANTALLA rrrreee----------------
+
+//-----PANTALLA SEGUIMIENTO---------
 class HomeScreen extends StatelessWidget {
   const HomeScreen({super.key});
 
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-      appBar: buildAppBar(context), // Usando la función de appbar.dart
+      appBar: buildAppBar(context),
+      // Usando la función de appbar.dart
       body: StreamBuilder<QuerySnapshot>(
-        stream: FirebaseFirestore.instance.collection('Seguimiento').snapshots(),
+        stream:
+            FirebaseFirestore.instance.collection('Seguimiento').snapshots(),
         builder: (context, snapshot) {
           if (snapshot.connectionState == ConnectionState.waiting) {
             return const Center(child: CircularProgressIndicator());
@@ -88,7 +92,8 @@ class HomeScreen extends StatelessWidget {
           return ListView.builder(
             itemCount: seguimientos.length,
             itemBuilder: (context, index) {
-              final seguimiento = seguimientos[index].data() as Map<String, dynamic>;
+              final seguimiento =
+                  seguimientos[index].data() as Map<String, dynamic>;
               return Card(
                 margin: const EdgeInsets.symmetric(vertical: 8, horizontal: 16),
                 elevation: 4,
@@ -97,20 +102,90 @@ class HomeScreen extends StatelessWidget {
                   child: Column(
                     crossAxisAlignment: CrossAxisAlignment.start,
                     children: [
-                      Text(
-                        seguimiento['segumiento'] ?? 'Sin seguimiento',
-                        style: const TextStyle(
-                          fontSize: 18,
-                          fontWeight: FontWeight.bold,
-                        ),
-                      ),
-                      const SizedBox(height: 8),
-                      Text(
-                        'Fecha: ${seguimiento['timestamp'] != null ? (seguimiento['timestamp'] as Timestamp).toDate().toString() : 'Sin fecha'}',
-                        style: const TextStyle(
-                          fontSize: 14,
-                          color: Colors.grey,
-                        ),
+                      // Título y fecha
+                      const SizedBox(height: 16),
+                      // Contenido de la tarjeta (la card interna)
+                      Row(
+                        children: [
+                          // Imagen del paquete
+                          Container(
+                            width: 60,
+                            height: 60,
+                            decoration: BoxDecoration(
+                              borderRadius: BorderRadius.circular(8),
+                              image: const DecorationImage(
+                                image:
+                                    AssetImage('lib/assets/images/paquete.png'),
+                                fit: BoxFit.cover,
+                              ),
+                            ),
+                          ),
+                          const SizedBox(width: 16),
+                          // Información del paquete
+                          Expanded(
+                            child: Column(
+                              crossAxisAlignment: CrossAxisAlignment.start,
+                              children: [
+                                Text(
+                                  seguimiento['seguimiento'] ??
+                                      'Sin seguimiento',
+                                  style: const TextStyle(
+                                    fontSize: 18,
+                                    fontWeight: FontWeight.bold,
+                                  ),
+                                ),
+                                const SizedBox(height: 8),
+                                Row(
+                                  children: [
+                                    const Text(
+                                      'Estado:',
+                                      style: TextStyle(
+                                        fontSize: 14,
+                                        fontWeight: FontWeight.w400,
+                                      ),
+                                    ),
+                                    const SizedBox(width: 8),
+                                    Row(
+                                      children: [
+                                        Container(
+                                          width: 10,
+                                          height: 10,
+                                          decoration: const BoxDecoration(
+                                            color: Colors.green,
+                                            shape: BoxShape.circle,
+                                          ),
+                                        ),
+                                        const SizedBox(width: 4),
+                                        const Text(
+                                          'Entregado', // Cambia por datos dinámicos si es necesario
+                                          style: TextStyle(
+                                            fontSize: 14,
+                                            fontWeight: FontWeight.w400,
+                                          ),
+                                        ),
+                                      ],
+                                    ),
+                                  ],
+                                ),
+                                const SizedBox(height: 8),
+                                const Text(
+                                  'Fecha estimada: Día mes año', // Cambia por datos dinámicos
+                                  style: TextStyle(
+                                    fontSize: 14,
+                                    fontWeight: FontWeight.w400,
+                                    color: Colors.grey,
+                                  ),
+                                ),
+                              ],
+                            ),
+                          ),
+                          // Flecha
+                          const Icon(
+                            Icons.arrow_forward_ios,
+                            size: 16,
+                            color: Colors.grey,
+                          ),
+                        ],
                       ),
                     ],
                   ),
@@ -213,7 +288,8 @@ class Cotizar extends StatelessWidget {
         ],
       ),
       body: const Center(
-        child: FormularioScreen(),
+        // Cambié FormularioScreen por CotizarForm
+        child: CotizarForm(),
       ),
     );
   }

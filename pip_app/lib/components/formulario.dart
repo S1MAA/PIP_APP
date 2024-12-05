@@ -28,7 +28,6 @@ class _FormularioScreenState extends State<FormularioScreen> {
         const SnackBar(
           content: Text('Por favor, complete todos los campos.'),
           duration: Duration(seconds: 3), //Duración del snackbar
-          backgroundColor: Colors.red,
         ),
       );
       return; // Detener ejecución si hay errores
