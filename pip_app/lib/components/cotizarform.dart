@@ -210,9 +210,23 @@ class _CotizarFormState extends State<CotizarForm> {
                       TextFormField(
                         controller: _pesoController,
                         decoration: const InputDecoration(
-                          labelText: 'Ingrese peso (kg)',
+                          labelText: 'Ej 10 (cm)',
+                          labelStyle: TextStyle(
+                            fontFamily: 'Poppins-Regular',
+                            fontSize: 12,
+                            color: Color.fromARGB(255, 196, 196, 196),
+                          ),
+                          errorStyle: TextStyle(
+                            fontSize: 12,
+                            color: Colors.red,
+                          ),
                         ),
-                        keyboardType: TextInputType.number,
+                        validator: (value) {
+                          if (value == null || value.isEmpty) {
+                            return 'Por favor, complete los campos faltantes';
+                          }
+                          return null;
+                        },
                       ),
                     ],
                   ),
@@ -227,9 +241,23 @@ class _CotizarFormState extends State<CotizarForm> {
                       TextFormField(
                         controller: _largoController,
                         decoration: const InputDecoration(
-                          labelText: 'Ingrese largo (cm)',
+                          labelText: 'Ej 10 (kg)',
+                          labelStyle: TextStyle(
+                            fontFamily: 'Poppins-Regular',
+                            fontSize: 12,
+                            color: Color.fromARGB(255, 196, 196, 196),
+                          ),
+                          errorStyle: TextStyle(
+                            fontSize: 12,
+                            color: Colors.red,
+                          ),
                         ),
-                        keyboardType: TextInputType.number,
+                        validator: (value) {
+                          if (value == null || value.isEmpty) {
+                            return 'Por favor, complete los campos faltantes';
+                          }
+                          return null;
+                        },
                       ),
                     ],
                   ),
@@ -248,9 +276,23 @@ class _CotizarFormState extends State<CotizarForm> {
                       TextFormField(
                         controller: _anchoController,
                         decoration: const InputDecoration(
-                          labelText: 'Ingrese ancho (cm)',
+                          labelText: 'Ej 10 (cm)',
+                          labelStyle: TextStyle(
+                            fontFamily: 'Poppins-Regular',
+                            fontSize: 12,
+                            color: Color.fromARGB(255, 196, 196, 196),
+                          ),
+                          errorStyle: TextStyle(
+                            fontSize: 12,
+                            color: Colors.red,
+                          ),
                         ),
-                        keyboardType: TextInputType.number,
+                        validator: (value) {
+                          if (value == null || value.isEmpty) {
+                            return 'Por favor, complete los campos faltantes';
+                          }
+                          return null;
+                        },
                       ),
                     ],
                   ),
@@ -265,9 +307,23 @@ class _CotizarFormState extends State<CotizarForm> {
                       TextFormField(
                         controller: _altoController,
                         decoration: const InputDecoration(
-                          labelText: 'Ingrese alto (cm)',
+                          labelText: 'Ej 10 (cm)',
+                          labelStyle: TextStyle(
+                            fontFamily: 'Poppins-Regular',
+                            fontSize: 12,
+                            color: Color.fromARGB(255, 196, 196, 196),
+                          ),
+                          errorStyle: TextStyle(
+                            fontSize: 12,
+                            color: Colors.red,
+                          ),
                         ),
-                        keyboardType: TextInputType.number,
+                        validator: (value) {
+                          if (value == null || value.isEmpty) {
+                            return 'Por favor, complete los campos faltantes';
+                          }
+                          return null;
+                        },
                       ),
                     ],
                   ),

@@ -60,7 +60,7 @@ class _MantenedorState extends State<Mantenedor> {
 }
 
 
-//-----PANTALLA SEGUIMIENTO---------
+
 //-----PANTALLA SEGUIMIENTO---------
 
 class HomeScreen extends StatelessWidget {
