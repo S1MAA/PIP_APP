@@ -295,32 +295,48 @@ class Enviar extends StatelessWidget {
           crossAxisAlignment: CrossAxisAlignment.start,
           children: [
             const SizedBox(height: 10),
-            const Text(
-              'Haz tu envío',
-              style: TextStyle(fontSize: 19, fontFamily: 'Poppins-Medium'),
+            Row(
+              crossAxisAlignment: CrossAxisAlignment.start,
+              children: [
+                // Contenedor para los textos
+                const Expanded(
+                  flex: 2, // Ajusta el tamaño relativo
+                  child: Column(
+                    crossAxisAlignment: CrossAxisAlignment.start,
+                    children: [
+                      Text(
+                        'Haz tu envío',
+                        style: TextStyle(
+                          fontSize: 19,
+                          fontFamily: 'Poppins-Medium',
+                        ),
+                      ),
+                      SizedBox(height: 8), // Espaciado entre los textos
+                      Text(
+                        'Realiza tus envíos individuales y masivos en simples pasos',
+                        style: TextStyle(
+                          fontFamily: 'Poppins-Regular',
+                          fontSize: 16,
+                          color: Colors.black,
+                        ),
+                      ),
+                    ],
+                  ),
+                ),
+                Expanded(
+                  flex: 1, // Ajusta el tamaño relativo
+                  child: Image.asset(
+                    'lib/assets/images/logo_pip.png',
+                    width: 100, // Ajusta según necesidad
+                    height: 100,
+                    fit: BoxFit.contain,
+                  ),
+                ),
+              ],
             ),
 
-            const Text(
-              'Realiza tus envíos individuales y masivos en simples pasos',
-              style: TextStyle(
-                fontFamily: 'Poppins-Regular',
-                fontSize: 16,
-                color: Colors.black,
-              ),
-            ),
-            const SizedBox(height: 28),
 
-            // Imagen entre el texto y el botón
-            Center(
-              child: Image.asset(
-                'lib/assets/images/logo_pip.png',
-                width: 220, // Ajusta el tamaño de la imagen según sea necesario
-                height: 220,
-                fit: BoxFit.contain,
-              ),
-            ),
-
-            const SizedBox(height: 28), // Espaciado entre la imagen y el botón
+            const SizedBox(height: 24), // Espaciado entre la imagen y el botón
 
             ElevatedButton(
               onPressed: () {
@@ -348,6 +364,258 @@ class Enviar extends StatelessWidget {
                   fontSize: 14,
                   color: Colors.white,
                 ),
+              ),
+            ),
+
+
+            const SizedBox(height: 24),
+            const Text(
+              'Tus envíos',
+              style: TextStyle(fontSize: 19, fontFamily: 'Poppins-Medium'),
+            ),
+            const SizedBox(height: 24),
+
+            //==================AQUÍ PARTE LA CARD=======================
+
+            Expanded(
+              child: StreamBuilder<QuerySnapshot>(
+                stream: FirebaseFirestore.instance
+                    .collection('EnviarData') // Cambiado a la colección EnviarData
+                    .orderBy('timestamp', descending: true) // Ordenar por timestamp
+                    .snapshots(),
+                builder: (context, snapshot) {
+                  if (snapshot.connectionState == ConnectionState.waiting) {
+                    return const Center(child: CircularProgressIndicator());
+                  }
+
+                  if (snapshot.hasError) {
+                    return Center(child: Text('Error: ${snapshot.error}'));
+                  }
+
+                  final envios = snapshot.data!.docs;
+
+                  return ListView.builder(
+                    itemCount: envios.length,
+                    itemBuilder: (context, index) {
+                      final envioDoc = envios[index];
+                      final envio = envioDoc.data() as Map<String, dynamic>;
+
+                      return Card(
+                        margin: const EdgeInsets.symmetric(vertical: 8, horizontal: 16),
+                        elevation: 2,
+                        shape: RoundedRectangleBorder(
+                          borderRadius: BorderRadius.circular(12),
+                        ),
+                        color: Colors.white,
+                        child: Padding(
+                          padding: const EdgeInsets.all(16.0),
+                          child: Row(
+                            children: [
+                              // Imagen
+                              Container(
+                                width: 50,
+                                height: 50,
+                                decoration: BoxDecoration(
+                                  color: Colors.blue[100],
+                                  borderRadius: BorderRadius.circular(8),
+                                ),
+                                child: const Icon(
+                                  Icons.person,
+                                  color: Colors.blue,
+                                  size: 30,
+                                ),
+                              ),
+                              const SizedBox(width: 16),
+                              // Texto en el centro
+                              Expanded(
+                                child: Column(
+                                  crossAxisAlignment: CrossAxisAlignment.start,
+                                  children: [
+                                    Text(
+                                      'Nombre: ${envio['nombre']}',
+                                      style: const TextStyle(
+                                          fontSize: 16, fontFamily: 'Poppins-Bold'),
+                                    ),
+                                    const SizedBox(height: 4),
+                                    Text(
+                                      'Dirección: ${envio['direccion remitente']}',
+                                      style: const TextStyle(
+                                          fontSize: 14, fontFamily: 'Poppins-Regular'),
+                                    ),
+                                    Text(
+                                      'Región: ${envio['region']}',
+                                      style: const TextStyle(
+                                          fontSize: 14, fontFamily: 'Poppins-Regular'),
+                                    ),
+                                    Text(
+                                      'Comuna: ${envio['comuna']}',
+                                      style: const TextStyle(
+                                          fontSize: 14, fontFamily: 'Poppins-Regular'),
+                                    ),
+                                  ],
+                                ),
+                              ),
+                              // Botones de eliminar y editar
+                              Column(
+                                children: [
+                                  IconButton(
+                                    icon: const Icon(Icons.delete, color: Colors.red),
+                                    onPressed: () {
+                                      showDialog(
+                                        context: context,
+                                        builder: (BuildContext context) {
+                                          return AlertDialog(
+                                            title: const Text('Eliminar envío'),
+                                            content: const Text(
+                                                '¿Estás seguro de que deseas eliminar este envío? Esta acción no se puede deshacer.'),
+                                            actions: [
+                                              TextButton(
+                                                child: const Text('Cancelar'),
+                                                onPressed: () {
+                                                  Navigator.of(context).pop();
+                                                },
+                                              ),
+                                              TextButton(
+                                                child: const Text('Eliminar',
+                                                    style: TextStyle(color: Colors.red)),
+                                                onPressed: () async {
+                                                  try {
+                                                    // Eliminar envío de Firebase
+                                                    await FirebaseFirestore.instance
+                                                        .collection('EnviarData')
+                                                        .doc(envioDoc.id)
+                                                        .delete();
+
+                                                    print('Envío eliminado');
+                                                  } catch (e) {
+                                                    print('Error al eliminar: $e');
+                                                  } finally {
+                                                    // ignore: use_build_context_synchronously
+                                                    Navigator.of(context).pop(); // Cierra el diálogo
+                                                  }
+                                                },
+                                              ),
+                                            ],
+                                          );
+                                        },
+                                      );
+                                    },
+                                  ),
+                                  IconButton(
+                                    icon: const Icon(Icons.edit, color: Colors.blue),
+                                    onPressed: () {
+                                      showDialog(
+                                        context: context,
+                                        builder: (BuildContext context) {
+                                          // Aquí se crea el diálogo para editar
+                                          TextEditingController nombreController =
+                                              TextEditingController(text: envio['nombre']);
+                                          TextEditingController telefonoController =
+                                              TextEditingController(text: envio['telefono']);
+                                          TextEditingController correoController =
+                                              TextEditingController(text: envio['correo']);
+                                          TextEditingController direccionController =
+                                              TextEditingController(
+                                                  text: envio['direccion remitente']);
+                                          TextEditingController regionController =
+                                              TextEditingController(text: envio['region']);
+                                          TextEditingController comunaController =
+                                              TextEditingController(text: envio['comuna']);
+
+                                          return AlertDialog(
+                                            title: const Text('Editar envío'),
+                                            content: SingleChildScrollView(
+                                              child: Column(
+                                                children: [
+                                                  TextField(
+                                                    controller: nombreController,
+                                                    decoration: const InputDecoration(
+                                                      labelText: 'Nombre',
+                                                    ),
+                                                  ),
+                                                  TextField(
+                                                    controller: telefonoController,
+                                                    decoration: const InputDecoration(
+                                                      labelText: 'Teléfono',
+                                                    ),
+                                                  ),
+                                                  TextField(
+                                                    controller: correoController,
+                                                    decoration: const InputDecoration(
+                                                      labelText: 'Correo',
+                                                    ),
+                                                  ),
+                                                  TextField(
+                                                    controller: direccionController,
+                                                    decoration: const InputDecoration(
+                                                      labelText: 'Dirección remitente',
+                                                    ),
+                                                  ),
+                                                  TextField(
+                                                    controller: regionController,
+                                                    decoration: const InputDecoration(
+                                                      labelText: 'Región',
+                                                    ),
+                                                  ),
+                                                  TextField(
+                                                    controller: comunaController,
+                                                    decoration: const InputDecoration(
+                                                      labelText: 'Comuna',
+                                                    ),
+                                                  ),
+                                                ],
+                                              ),
+                                            ),
+                                            actions: [
+                                              TextButton(
+                                                child: const Text('Cancelar'),
+                                                onPressed: () {
+                                                  Navigator.of(context).pop();
+                                                },
+                                              ),
+                                              TextButton(
+                                                child: const Text('Guardar',
+                                                    style: TextStyle(color: Colors.blue)),
+                                                onPressed: () async {
+                                                  try {
+                                                    // Actualizar envío en Firebase
+                                                    await FirebaseFirestore.instance
+                                                        .collection('EnviarData')
+                                                        .doc(envioDoc.id)
+                                                        .update({
+                                                      'nombre': nombreController.text,
+                                                      'telefono': telefonoController.text,
+                                                      'correo': correoController.text,
+                                                      'direccion remitente':
+                                                          direccionController.text,
+                                                      'region': regionController.text,
+                                                      'comuna': comunaController.text,
+                                                    });
+
+                                                    print('Envío actualizado');
+                                                  } catch (e) {
+                                                    print('Error al actualizar: $e');
+                                                  } finally {
+                                                    // ignore: use_build_context_synchronously
+                                                    Navigator.of(context).pop(); // Cierra el diálogo
+                                                  }
+                                                },
+                                              ),
+                                            ],
+                                          );
+                                        },
+                                      );
+                                    },
+                                  ),
+                                ],
+                              ),
+                            ],
+                          ),
+                        ),
+                      );
+                    },
+                  );
+                },
               ),
             ),
           ],
@@ -435,6 +703,9 @@ class Cotizar extends StatelessWidget {
               'Tus cotizaciones',
               style: TextStyle(fontSize: 19, fontFamily: 'Poppins-Medium'),
             ),
+
+            //==================AQUÍ PARTE LA CARD=======================
+
             const SizedBox(height: 8),
             //Respuesta formulario cotizaciones
             // StreamBuilder para mostrar las cotizaciones en tiempo real
