@@ -36,6 +36,7 @@ class _CotizarFormState extends State<CotizarForm> {
         const SnackBar(
           content: Text('Por favor, complete todos los campos.'),
           duration: Duration(seconds: 3),
+          backgroundColor: Colors.red,
         ),
       );
       return; // No continuar si los campos están incompletos
@@ -52,7 +53,6 @@ class _CotizarFormState extends State<CotizarForm> {
         'alto': _altoController.text,
         'timestamp': FieldValue.serverTimestamp(), // Fecha/hora del servidor
       });
-
 
       // ignore: use_build_context_synchronously
       ScaffoldMessenger.of(context).showSnackBar(
@@ -118,7 +118,7 @@ class _CotizarFormState extends State<CotizarForm> {
                       crossAxisAlignment: CrossAxisAlignment.start,
                       mainAxisSize: MainAxisSize.min,
                       children: [
-                        const SizedBox(height: 24),
+                        const SizedBox(height: 8),
                         const Text(
                           'Origen y destino',
                           style: TextStyle(
@@ -139,14 +139,14 @@ class _CotizarFormState extends State<CotizarForm> {
                         const SizedBox(height: 8),
                         TextFormField(
                           controller: _lugarOrigen,
-                          decoration: const InputDecoration(
+                          decoration: InputDecoration(
                             labelText: 'Escribe la localidad de origen',
                             labelStyle: TextStyle(
                               fontFamily: 'Poppins-Regular',
-                              fontSize: 12,
-                              color: Color.fromARGB(255, 147, 147, 147),
+                              fontSize: 14,
+                              color: Colors.grey[400],
                             ),
-                            errorStyle: TextStyle(
+                            errorStyle: const TextStyle(
                               fontSize: 12,
                               color: Colors.red,
                             ),
@@ -167,14 +167,14 @@ class _CotizarFormState extends State<CotizarForm> {
                         const SizedBox(height: 8),
                         TextFormField(
                           controller: _lugarDestino,
-                          decoration: const InputDecoration(
+                          decoration: InputDecoration(
                             labelText: 'Escribe la localidad de destino',
                             labelStyle: TextStyle(
                               fontFamily: 'Poppins-Regular',
-                              fontSize: 12,
-                              color: Color.fromARGB(255, 147, 147, 147),
+                              fontSize: 14,
+                              color: Colors.grey[400],
                             ),
-                            errorStyle: TextStyle(
+                            errorStyle: const TextStyle(
                               fontSize: 12,
                               color: Colors.red,
                             ),
@@ -214,7 +214,13 @@ class _CotizarFormState extends State<CotizarForm> {
                 ],
               ),
             ),
-            const SizedBox(height: 20),
+            const SizedBox(height: 30),
+            Divider(
+              color:
+                  Theme.of(context).colorScheme.secondary, // Color de la línea
+              thickness: 2.0, // Grosor de la línea
+            ),
+            const SizedBox(height: 30),
             const Text(
               'Detalles de envío',
               style: TextStyle(fontSize: 19, fontFamily: 'Poppins-Medium'),
@@ -238,14 +244,14 @@ class _CotizarFormState extends State<CotizarForm> {
                       const SizedBox(height: 8),
                       TextFormField(
                         controller: _pesoController,
-                        decoration: const InputDecoration(
+                        decoration: InputDecoration(
                           labelText: 'Ej 10 (kg)',
                           labelStyle: TextStyle(
                             fontFamily: 'Poppins-Regular',
-                            fontSize: 12,
-                            color: Color.fromARGB(255, 147, 147, 147),
+                            fontSize: 14,
+                            color: Colors.grey[400],
                           ),
-                          errorStyle: TextStyle(
+                          errorStyle: const TextStyle(
                             fontSize: 12,
                             color: Colors.red,
                           ),
@@ -273,14 +279,14 @@ class _CotizarFormState extends State<CotizarForm> {
                       const SizedBox(height: 8),
                       TextFormField(
                         controller: _largoController,
-                        decoration: const InputDecoration(
+                        decoration: InputDecoration(
                           labelText: 'Ej 10 (cm)',
                           labelStyle: TextStyle(
                             fontFamily: 'Poppins-Regular',
-                            fontSize: 12,
-                            color: Color.fromARGB(255, 147, 147, 147),
+                            fontSize: 14,
+                            color: Colors.grey[400],
                           ),
-                          errorStyle: TextStyle(
+                          errorStyle: const TextStyle(
                             fontSize: 12,
                             color: Colors.red,
                           ),
@@ -312,14 +318,14 @@ class _CotizarFormState extends State<CotizarForm> {
                       const SizedBox(height: 8),
                       TextFormField(
                         controller: _anchoController,
-                        decoration: const InputDecoration(
+                        decoration: InputDecoration(
                           labelText: 'Ej 10 (cm)',
                           labelStyle: TextStyle(
                             fontFamily: 'Poppins-Regular',
-                            fontSize: 12,
-                            color: Color.fromARGB(255, 147, 147, 147),
+                            fontSize: 14,
+                            color: Colors.grey[400],
                           ),
-                          errorStyle: TextStyle(
+                          errorStyle: const TextStyle(
                             fontSize: 12,
                             color: Colors.red,
                           ),
@@ -347,14 +353,14 @@ class _CotizarFormState extends State<CotizarForm> {
                       const SizedBox(height: 8),
                       TextFormField(
                         controller: _altoController,
-                        decoration: const InputDecoration(
+                        decoration: InputDecoration(
                           labelText: 'Ej 10 (cm)',
                           labelStyle: TextStyle(
                             fontFamily: 'Poppins-Regular',
-                            fontSize: 12,
-                            color: Color.fromARGB(255, 147, 147, 147),
+                            fontSize: 14,
+                            color: Colors.grey[400],
                           ),
-                          errorStyle: TextStyle(
+                          errorStyle: const TextStyle(
                             fontSize: 12,
                             color: Colors.red,
                           ),
@@ -371,7 +377,7 @@ class _CotizarFormState extends State<CotizarForm> {
                 ),
               ],
             ),
-            const SizedBox(height: 30),
+            const SizedBox(height: 32),
             Center(
               child: SizedBox(
                 width: 330,

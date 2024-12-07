@@ -3,7 +3,7 @@ import 'package:flutter/material.dart';
 AppBar buildAppBar(BuildContext context) {
   return AppBar(
     backgroundColor: Theme.of(context).colorScheme.primary,
-    toolbarHeight: 270, // Ajusta la altura según el contenido
+    toolbarHeight: 300, // Ajusta la altura según el contenido
     title: Column(
       crossAxisAlignment: CrossAxisAlignment.start,
       children: [
@@ -27,25 +27,24 @@ AppBar buildAppBar(BuildContext context) {
             ),
           ],
         ),
-        const SizedBox(height: 24),
+        const SizedBox(height: 32),
         // Título de seguimiento
         const Text(
           'Seguimiento en línea',
           style: TextStyle(
+            fontSize: 19,
             fontFamily: 'Poppins-Medium',
-            fontSize: 20,
-            color: Colors.white,
           ),
         ),
         const SizedBox(height: 8),
         const Text(
-          'Ingresa el número de seguimiento de tu pedido',
+          'Ingresa y busca el número de seguimiento de tu pedido en tu activdad reciente',
           style: TextStyle(
             fontFamily: 'Poppins-Regular',
-            fontSize: 18,
+            fontSize: 16,
             color: Colors.white,
           ),
-          maxLines: 2, // Permite un máximo de 2 líneas
+          maxLines: 3, // Permite un máximo de 2 líneas
           overflow: TextOverflow.ellipsis,
         ),
         const SizedBox(height: 24),

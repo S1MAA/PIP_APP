@@ -86,7 +86,7 @@ class _FormularioScreenState extends State<FormularioScreen> {
                   'Seguimiento en línea',
                   style: TextStyle(fontSize: 19, fontFamily: 'Poppins-Medium'),
                 ),
-                const SizedBox(height: 16),
+                const SizedBox(height: 8),
                 const Text(
                   'Ingresa el número de seguimiento de tu pedido para brindarte información actualizada sobre su estado.',
                   style: TextStyle(fontSize: 16, fontFamily: 'Poppins-Regular'),
@@ -94,14 +94,14 @@ class _FormularioScreenState extends State<FormularioScreen> {
                 const SizedBox(height: 16),
                 TextFormField(
                   controller: _nSeguimiento,
-                  decoration: const InputDecoration(
+                  decoration: InputDecoration(
                     labelText: 'Número de seguimiento',
                     labelStyle: TextStyle(
                       fontFamily: 'Poppins-Regular',
-                      fontSize: 12,
-                      color: Color.fromARGB(255, 196, 196, 196),
+                      fontSize: 14,
+                      color: Colors.grey[400],
                     ),
-                    errorStyle: TextStyle(
+                    errorStyle: const TextStyle(
                       //Al no completar el campo, error de textfield rojo del textfield --------
                       fontSize: 12,
                       color: Colors.red,
@@ -114,7 +114,7 @@ class _FormularioScreenState extends State<FormularioScreen> {
                     return null;
                   },
                 ),
-                const SizedBox(height: 24),
+                const SizedBox(height: 32),
                 Center(
                   child: SizedBox(
                     width: 330,

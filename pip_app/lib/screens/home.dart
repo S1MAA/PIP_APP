@@ -77,14 +77,15 @@ class HomeScreen extends StatelessWidget {
       body: Column(
         crossAxisAlignment: CrossAxisAlignment.start,
         children: [
+          const SizedBox(height: 10),
           // Título agregado
           const Padding(
             padding: EdgeInsets.all(16.0),
             child: Text(
               'Actividad reciente',
               style: TextStyle(
-                fontFamily: 'Poppins-Regular',
-                fontSize: 18,
+                fontFamily: 'Poppins-Medium',
+                fontSize: 19,
               ),
             ),
           ),
@@ -294,7 +295,7 @@ class Enviar extends StatelessWidget {
         child: Column(
           crossAxisAlignment: CrossAxisAlignment.start,
           children: [
-            const SizedBox(height: 10),
+            const SizedBox(height: 8),
             Row(
               crossAxisAlignment: CrossAxisAlignment.start,
               children: [
@@ -335,8 +336,7 @@ class Enviar extends StatelessWidget {
               ],
             ),
 
-
-            const SizedBox(height: 24), // Espaciado entre la imagen y el botón
+            const SizedBox(height: 32), // Espaciado entre la imagen y el botón
 
             ElevatedButton(
               onPressed: () {
@@ -367,7 +367,6 @@ class Enviar extends StatelessWidget {
               ),
             ),
 
-
             const SizedBox(height: 24),
             const Text(
               'Tus envíos',
@@ -380,8 +379,10 @@ class Enviar extends StatelessWidget {
             Expanded(
               child: StreamBuilder<QuerySnapshot>(
                 stream: FirebaseFirestore.instance
-                    .collection('EnviarData') // Cambiado a la colección EnviarData
-                    .orderBy('timestamp', descending: true) // Ordenar por timestamp
+                    .collection(
+                        'EnviarData') // Cambiado a la colección EnviarData
+                    .orderBy('timestamp',
+                        descending: true) // Ordenar por timestamp
                     .snapshots(),
                 builder: (context, snapshot) {
                   if (snapshot.connectionState == ConnectionState.waiting) {
@@ -401,8 +402,9 @@ class Enviar extends StatelessWidget {
                       final envio = envioDoc.data() as Map<String, dynamic>;
 
                       return Card(
-                        margin: const EdgeInsets.symmetric(vertical: 8, horizontal: 16),
-                        elevation: 2,
+                        margin: const EdgeInsets.symmetric(
+                            vertical: 8, horizontal: 16),
+                        elevation: 4,
                         shape: RoundedRectangleBorder(
                           borderRadius: BorderRadius.circular(12),
                         ),
@@ -416,12 +418,12 @@ class Enviar extends StatelessWidget {
                                 width: 50,
                                 height: 50,
                                 decoration: BoxDecoration(
-                                  color: Colors.blue[100],
+                                  color: Colors.orange[100],
                                   borderRadius: BorderRadius.circular(8),
                                 ),
                                 child: const Icon(
                                   Icons.person,
-                                  color: Colors.blue,
+                                  color: Colors.orange,
                                   size: 30,
                                 ),
                               ),
@@ -434,23 +436,28 @@ class Enviar extends StatelessWidget {
                                     Text(
                                       'Nombre: ${envio['nombre']}',
                                       style: const TextStyle(
-                                          fontSize: 16, fontFamily: 'Poppins-Bold'),
+                                          fontSize: 16,
+                                          fontFamily: 'Poppins-Regular',
+                                          fontWeight: FontWeight.bold,),
                                     ),
                                     const SizedBox(height: 4),
                                     Text(
                                       'Dirección: ${envio['direccion remitente']}',
                                       style: const TextStyle(
-                                          fontSize: 14, fontFamily: 'Poppins-Regular'),
+                                          fontSize: 14,
+                                          fontFamily: 'Poppins-Regular'),
                                     ),
                                     Text(
                                       'Región: ${envio['region']}',
                                       style: const TextStyle(
-                                          fontSize: 14, fontFamily: 'Poppins-Regular'),
+                                          fontSize: 14,
+                                          fontFamily: 'Poppins-Regular'),
                                     ),
                                     Text(
                                       'Comuna: ${envio['comuna']}',
                                       style: const TextStyle(
-                                          fontSize: 14, fontFamily: 'Poppins-Regular'),
+                                          fontSize: 14,
+                                          fontFamily: 'Poppins-Regular'),
                                     ),
                                   ],
                                 ),
@@ -459,39 +466,55 @@ class Enviar extends StatelessWidget {
                               Column(
                                 children: [
                                   IconButton(
-                                    icon: const Icon(Icons.delete, color: Colors.red),
+                                    icon: const Icon(Icons.delete,
+                                        color: Colors.red),
                                     onPressed: () {
                                       showDialog(
                                         context: context,
                                         builder: (BuildContext context) {
                                           return AlertDialog(
-                                            title: const Text('Eliminar envío'),
+                                            title: const Text('Eliminar envío',
+                                                style: TextStyle(
+                                                    fontFamily:
+                                                        'Poppins-Medium')),
                                             content: const Text(
-                                                '¿Estás seguro de que deseas eliminar este envío? Esta acción no se puede deshacer.'),
+                                                '¿Estás seguro de que deseas eliminar este envío? Esta acción no se puede deshacer.',
+                                                style: TextStyle(
+                                                    fontFamily:
+                                                        'Poppins-Regular')),
                                             actions: [
                                               TextButton(
-                                                child: const Text('Cancelar'),
+                                                child: const Text('Cancelar',
+                                                    style: TextStyle(
+                                                        fontFamily:
+                                                            'Poppins-Regular')),
                                                 onPressed: () {
                                                   Navigator.of(context).pop();
                                                 },
                                               ),
                                               TextButton(
                                                 child: const Text('Eliminar',
-                                                    style: TextStyle(color: Colors.red)),
+                                                    style: TextStyle(
+                                                        color: Colors.red,
+                                                        fontFamily:
+                                                            'Poppins-Regular')),
                                                 onPressed: () async {
                                                   try {
                                                     // Eliminar envío de Firebase
-                                                    await FirebaseFirestore.instance
-                                                        .collection('EnviarData')
+                                                    await FirebaseFirestore
+                                                        .instance
+                                                        .collection(
+                                                            'EnviarData')
                                                         .doc(envioDoc.id)
                                                         .delete();
-
                                                     print('Envío eliminado');
                                                   } catch (e) {
-                                                    print('Error al eliminar: $e');
+                                                    print(
+                                                        'Error al eliminar: $e');
                                                   } finally {
                                                     // ignore: use_build_context_synchronously
-                                                    Navigator.of(context).pop(); // Cierra el diálogo
+                                                    Navigator.of(context)
+                                                        .pop(); // Cierra el diálogo
                                                   }
                                                 },
                                               ),
@@ -502,102 +525,238 @@ class Enviar extends StatelessWidget {
                                     },
                                   ),
                                   IconButton(
-                                    icon: const Icon(Icons.edit, color: Colors.blue),
+                                    icon: const Icon(Icons.edit,
+                                        color: Colors.blue),
                                     onPressed: () {
                                       showDialog(
                                         context: context,
                                         builder: (BuildContext context) {
                                           // Aquí se crea el diálogo para editar
-                                          TextEditingController nombreController =
-                                              TextEditingController(text: envio['nombre']);
-                                          TextEditingController telefonoController =
-                                              TextEditingController(text: envio['telefono']);
-                                          TextEditingController correoController =
-                                              TextEditingController(text: envio['correo']);
-                                          TextEditingController direccionController =
+                                          TextEditingController
+                                              nombreController =
                                               TextEditingController(
-                                                  text: envio['direccion remitente']);
-                                          TextEditingController regionController =
-                                              TextEditingController(text: envio['region']);
-                                          TextEditingController comunaController =
-                                              TextEditingController(text: envio['comuna']);
+                                                  text: envio['nombre']);
+                                          TextEditingController
+                                              telefonoController =
+                                              TextEditingController(
+                                                  text: envio['telefono']);
+                                          TextEditingController
+                                              correoController =
+                                              TextEditingController(
+                                                  text: envio['correo']);
+                                          TextEditingController
+                                              direccionController =
+                                              TextEditingController(
+                                                  text: envio[
+                                                      'direccion remitente']);
+                                          TextEditingController
+                                              regionController =
+                                              TextEditingController(
+                                                  text: envio['region']);
+                                          TextEditingController
+                                              comunaController =
+                                              TextEditingController(
+                                                  text: envio['comuna']);
 
                                           return AlertDialog(
-                                            title: const Text('Editar envío'),
+                                            title: const Text('Editar envío',
+                                                style: TextStyle(
+                                                    fontFamily:
+                                                        'Poppins-Medium')),
                                             content: SingleChildScrollView(
                                               child: Column(
                                                 children: [
                                                   TextField(
-                                                    controller: nombreController,
-                                                    decoration: const InputDecoration(
+                                                    controller:
+                                                        nombreController,
+                                                    decoration:
+                                                        const InputDecoration(
                                                       labelText: 'Nombre',
+                                                      labelStyle: TextStyle(
+                                                        fontFamily:
+                                                            'Poppins-Regular',
+                                                        fontSize:
+                                                            14, // Tamaño de fuente del label
+                                                      ),
+                                                    ),
+                                                    style: const TextStyle(
+                                                      fontFamily:
+                                                          'Poppins-Regular',
+                                                      fontSize:
+                                                          14, // Tamaño de fuente del texto ingresado
+                                                      color: Colors
+                                                          .black, // Color del texto ingresado
                                                     ),
                                                   ),
+                                                  const SizedBox(height: 16),
                                                   TextField(
-                                                    controller: telefonoController,
-                                                    decoration: const InputDecoration(
+                                                    controller:
+                                                        telefonoController,
+                                                    decoration:
+                                                        const InputDecoration(
                                                       labelText: 'Teléfono',
+                                                      labelStyle: TextStyle(
+                                                        fontFamily:
+                                                            'Poppins-Regular',
+                                                        fontSize:
+                                                            14, // Tamaño de fuente del label
+                                                      ),
+                                                    ),
+                                                    style: const TextStyle(
+                                                      fontFamily:
+                                                          'Poppins-Regular',
+                                                      fontSize:
+                                                          14, // Tamaño de fuente del texto ingresado
+                                                      color: Colors
+                                                          .black, // Color del texto ingresado
                                                     ),
                                                   ),
+                                                  const SizedBox(height: 16),
                                                   TextField(
-                                                    controller: correoController,
-                                                    decoration: const InputDecoration(
+                                                    controller:
+                                                        correoController,
+                                                    decoration:
+                                                        const InputDecoration(
                                                       labelText: 'Correo',
+                                                      labelStyle: TextStyle(
+                                                        fontFamily:
+                                                            'Poppins-Regular',
+                                                        fontSize:
+                                                            14, // Tamaño de fuente del label
+                                                      ),
+                                                    ),
+                                                    style: const TextStyle(
+                                                      fontFamily:
+                                                          'Poppins-Regular',
+                                                      fontSize:
+                                                          14, // Tamaño de fuente del texto ingresado
+                                                      color: Colors
+                                                          .black, // Color del texto ingresado
                                                     ),
                                                   ),
+                                                  const SizedBox(height: 16),
                                                   TextField(
-                                                    controller: direccionController,
-                                                    decoration: const InputDecoration(
-                                                      labelText: 'Dirección remitente',
+                                                    controller:
+                                                        direccionController,
+                                                    decoration:
+                                                        const InputDecoration(
+                                                      labelText:
+                                                          'Dirección remitente',
+                                                      labelStyle: TextStyle(
+                                                        fontFamily:
+                                                            'Poppins-Regular',
+                                                        fontSize:
+                                                            14, // Tamaño de fuente del label
+                                                      ),
+                                                    ),
+                                                    style: const TextStyle(
+                                                      fontFamily:
+                                                          'Poppins-Regular',
+                                                      fontSize:
+                                                          14, // Tamaño de fuente del texto ingresado
+                                                      color: Colors
+                                                          .black, // Color del texto ingresado
                                                     ),
                                                   ),
+                                                  const SizedBox(height: 16),
                                                   TextField(
-                                                    controller: regionController,
-                                                    decoration: const InputDecoration(
+                                                    controller:
+                                                        regionController,
+                                                    decoration:
+                                                        const InputDecoration(
                                                       labelText: 'Región',
+                                                      labelStyle: TextStyle(
+                                                        fontFamily:
+                                                            'Poppins-Regular',
+                                                        fontSize:
+                                                            14, // Tamaño de fuente del label
+                                                      ),
+                                                    ),
+                                                    style: const TextStyle(
+                                                      fontFamily:
+                                                          'Poppins-Regular',
+                                                      fontSize:
+                                                          14, // Tamaño de fuente del texto ingresado
+                                                      color: Colors
+                                                          .black, // Color del texto ingresado
                                                     ),
                                                   ),
+                                                  const SizedBox(height: 16),
                                                   TextField(
-                                                    controller: comunaController,
-                                                    decoration: const InputDecoration(
+                                                    controller:
+                                                        comunaController,
+                                                    decoration:
+                                                        const InputDecoration(
                                                       labelText: 'Comuna',
+                                                      labelStyle: TextStyle(
+                                                        fontFamily:
+                                                            'Poppins-Regular',
+                                                        fontSize:
+                                                            14, // Tamaño de fuente del label
+                                                      ),
+                                                    ),
+                                                    style: const TextStyle(
+                                                      fontFamily:
+                                                          'Poppins-Regular',
+                                                      fontSize:
+                                                          14, // Tamaño de fuente del texto ingresado
+                                                      color: Colors
+                                                          .black, // Color del texto ingresado
                                                     ),
                                                   ),
+                                                  const SizedBox(height: 16),
                                                 ],
                                               ),
                                             ),
                                             actions: [
                                               TextButton(
-                                                child: const Text('Cancelar'),
+                                                child: const Text('Cancelar',
+                                                    style: TextStyle(
+                                                        fontFamily:
+                                                            'Poppins-Regular')),
                                                 onPressed: () {
                                                   Navigator.of(context).pop();
                                                 },
                                               ),
                                               TextButton(
                                                 child: const Text('Guardar',
-                                                    style: TextStyle(color: Colors.blue)),
+                                                    style: TextStyle(
+                                                        color: Colors.blue,
+                                                        fontFamily:
+                                                            'Poppins-Regular')),
                                                 onPressed: () async {
                                                   try {
                                                     // Actualizar envío en Firebase
-                                                    await FirebaseFirestore.instance
-                                                        .collection('EnviarData')
+                                                    await FirebaseFirestore
+                                                        .instance
+                                                        .collection(
+                                                            'EnviarData')
                                                         .doc(envioDoc.id)
                                                         .update({
-                                                      'nombre': nombreController.text,
-                                                      'telefono': telefonoController.text,
-                                                      'correo': correoController.text,
+                                                      'nombre':
+                                                          nombreController.text,
+                                                      'telefono':
+                                                          telefonoController
+                                                              .text,
+                                                      'correo':
+                                                          correoController.text,
                                                       'direccion remitente':
-                                                          direccionController.text,
-                                                      'region': regionController.text,
-                                                      'comuna': comunaController.text,
+                                                          direccionController
+                                                              .text,
+                                                      'region':
+                                                          regionController.text,
+                                                      'comuna':
+                                                          comunaController.text,
                                                     });
 
                                                     print('Envío actualizado');
                                                   } catch (e) {
-                                                    print('Error al actualizar: $e');
+                                                    print(
+                                                        'Error al actualizar: $e');
                                                   } finally {
                                                     // ignore: use_build_context_synchronously
-                                                    Navigator.of(context).pop(); // Cierra el diálogo
+                                                    Navigator.of(context)
+                                                        .pop(); // Cierra el diálogo
                                                   }
                                                 },
                                               ),
@@ -656,6 +815,7 @@ class Cotizar extends StatelessWidget {
         child: Column(
           crossAxisAlignment: CrossAxisAlignment.start,
           children: [
+            const SizedBox(height: 8),
             const Text(
               'Haz una cotización',
               style: TextStyle(fontSize: 19, fontFamily: 'Poppins-Medium'),
@@ -703,17 +863,16 @@ class Cotizar extends StatelessWidget {
               'Tus cotizaciones',
               style: TextStyle(fontSize: 19, fontFamily: 'Poppins-Medium'),
             ),
-
-            //==================AQUÍ PARTE LA CARD=======================
-
             const SizedBox(height: 8),
             //Respuesta formulario cotizaciones
             // StreamBuilder para mostrar las cotizaciones en tiempo real
             Expanded(
               child: StreamBuilder<QuerySnapshot>(
                 stream: FirebaseFirestore.instance
-                    .collection('CotizacionData') // Tu colección de cotizaciones
-                    .orderBy('timestamp', descending: true) // Ordenar por tiempo
+                    .collection(
+                        'CotizacionData') // Tu colección de cotizaciones
+                    .orderBy('timestamp',
+                        descending: true) // Ordenar por tiempo
                     .snapshots(),
                 builder: (context, snapshot) {
                   if (snapshot.connectionState == ConnectionState.waiting) {
@@ -734,8 +893,9 @@ class Cotizar extends StatelessWidget {
                           cotizacionDoc.data() as Map<String, dynamic>;
 
                       return Card(
-                        margin: const EdgeInsets.symmetric(vertical: 8, horizontal: 16),
-                        elevation: 2,
+                        margin: const EdgeInsets.symmetric(
+                            vertical: 8, horizontal: 16),
+                        elevation: 4,
                         shape: RoundedRectangleBorder(
                           borderRadius: BorderRadius.circular(12),
                         ),
@@ -767,28 +927,34 @@ class Cotizar extends StatelessWidget {
                                     const Text(
                                       'Valor cotización \$7.990',
                                       style: TextStyle(
-                                          fontSize: 16, fontFamily: 'Poppins-Bold'),
+                                          fontSize: 16,
+                                          fontFamily: 'Poppins-Regular',
+                                          fontWeight: FontWeight.bold),
                                     ),
                                     const SizedBox(height: 4),
                                     Text(
                                       'Localidad origen: ${cotizacion['origen']}',
                                       style: const TextStyle(
-                                          fontSize: 14, fontFamily: 'Poppins-Regular'),
+                                          fontSize: 14,
+                                          fontFamily: 'Poppins-Regular'),
                                     ),
                                     Text(
                                       'Localidad destino: ${cotizacion['destino']}',
                                       style: const TextStyle(
-                                          fontSize: 14, fontFamily: 'Poppins-Regular'),
+                                          fontSize: 14,
+                                          fontFamily: 'Poppins-Regular'),
                                     ),
                                     Text(
                                       'Dimensiones: ${cotizacion['largo']} x ${cotizacion['ancho']} x ${cotizacion['alto']}',
                                       style: const TextStyle(
-                                          fontSize: 14, fontFamily: 'Poppins-Regular'),
+                                          fontSize: 14,
+                                          fontFamily: 'Poppins-Regular'),
                                     ),
                                     Text(
                                       'Peso: ${cotizacion['peso']}',
                                       style: const TextStyle(
-                                          fontSize: 14, fontFamily: 'Poppins-Regular'),
+                                          fontSize: 14,
+                                          fontFamily: 'Poppins-Regular'),
                                     ),
                                   ],
                                 ),
@@ -797,39 +963,58 @@ class Cotizar extends StatelessWidget {
                               Column(
                                 children: [
                                   IconButton(
-                                    icon: const Icon(Icons.delete, color: Colors.red),
+                                    icon: const Icon(Icons.delete,
+                                        color: Colors.red),
                                     onPressed: () {
                                       showDialog(
                                         context: context,
                                         builder: (BuildContext context) {
                                           return AlertDialog(
-                                            title: const Text('Eliminar cotización'),
+                                            title: const Text(
+                                                'Eliminar cotización',
+                                                style: TextStyle(
+                                                    fontFamily:
+                                                        'Poppins-Medium')),
                                             content: const Text(
-                                                '¿Estás seguro de que deseas eliminar esta cotización? Esta acción no se puede deshacer.'),
+                                                '¿Estás seguro de que deseas eliminar esta cotización? Esta acción no se puede deshacer.',
+                                                style: TextStyle(
+                                                    fontFamily:
+                                                        'Poppins-Regular')),
                                             actions: [
                                               TextButton(
-                                                child: const Text('Cancelar'),
+                                                child: const Text('Cancelar',
+                                                    style: TextStyle(
+                                                        fontFamily:
+                                                            'Poppins-Regular')),
                                                 onPressed: () {
                                                   Navigator.of(context).pop();
                                                 },
                                               ),
                                               TextButton(
                                                 child: const Text('Eliminar',
-                                                    style: TextStyle(color: Colors.red)),
+                                                    style: TextStyle(
+                                                        color: Colors.red,
+                                                        fontFamily:
+                                                            'Poppins-Regular')),
                                                 onPressed: () async {
                                                   try {
                                                     // Eliminar cotización de Firebase
-                                                    await FirebaseFirestore.instance
-                                                        .collection('CotizacionData')
+                                                    await FirebaseFirestore
+                                                        .instance
+                                                        .collection(
+                                                            'CotizacionData')
                                                         .doc(cotizacionDoc.id)
                                                         .delete();
 
-                                                    print('Cotización eliminada');
+                                                    print(
+                                                        'Cotización eliminada');
                                                   } catch (e) {
-                                                    print('Error al eliminar: $e');
+                                                    print(
+                                                        'Error al eliminar: $e');
                                                   } finally {
                                                     // ignore: use_build_context_synchronously
-                                                    Navigator.of(context).pop(); // Cierra el diálogo
+                                                    Navigator.of(context)
+                                                        .pop(); // Cierra el diálogo
                                                   }
                                                 },
                                               ),
@@ -840,64 +1025,178 @@ class Cotizar extends StatelessWidget {
                                     },
                                   ),
                                   IconButton(
-                                    icon: const Icon(Icons.edit, color: Colors.blue),
+                                    icon: const Icon(Icons.edit,
+                                        color: Colors.blue),
                                     onPressed: () {
                                       showDialog(
                                         context: context,
                                         builder: (BuildContext context) {
                                           // Aquí se crea el diálogo para editar
-                                          TextEditingController origenController =
-                                              TextEditingController(text: cotizacion['origen']);
-                                          TextEditingController destinoController =
-                                              TextEditingController(text: cotizacion['destino']);
-                                          TextEditingController largoController =
-                                              TextEditingController(text: cotizacion['largo']);
-                                          TextEditingController anchoController =
-                                              TextEditingController(text: cotizacion['ancho']);
+                                          TextEditingController
+                                              origenController =
+                                              TextEditingController(
+                                                  text: cotizacion['origen']);
+                                          TextEditingController
+                                              destinoController =
+                                              TextEditingController(
+                                                  text: cotizacion['destino']);
+                                          TextEditingController
+                                              largoController =
+                                              TextEditingController(
+                                                  text: cotizacion['largo']);
+                                          TextEditingController
+                                              anchoController =
+                                              TextEditingController(
+                                                  text: cotizacion['ancho']);
                                           TextEditingController altoController =
-                                              TextEditingController(text: cotizacion['alto']);
+                                              TextEditingController(
+                                                  text: cotizacion['alto']);
                                           TextEditingController pesoController =
-                                              TextEditingController(text: cotizacion['peso']);
+                                              TextEditingController(
+                                                  text: cotizacion['peso']);
 
                                           return AlertDialog(
-                                            title: const Text('Editar cotización'),
+                                            title: const Text(
+                                                'Editar cotización',
+                                                style: TextStyle(
+                                                    fontFamily:
+                                                        'Poppins-Medium')),
                                             content: SingleChildScrollView(
                                               child: Column(
                                                 children: [
                                                   TextField(
-                                                    controller: origenController,
-                                                    decoration: const InputDecoration(
-                                                      labelText: 'Localidad origen',
+                                                    controller:
+                                                        origenController,
+                                                    decoration:
+                                                        const InputDecoration(
+                                                      labelText:
+                                                          'Localidad origen',
+                                                      labelStyle: TextStyle(
+                                                        fontFamily:
+                                                            'Poppins-Regular',
+                                                        fontSize:
+                                                            14, // Tamaño de fuente del label
+                                                      ),
+                                                    ),
+                                                    style: const TextStyle(
+                                                      fontFamily:
+                                                          'Poppins-Regular',
+                                                      fontSize:
+                                                          14, // Tamaño de fuente del texto ingresado
+                                                      color: Colors
+                                                          .black, // Color del texto ingresado
                                                     ),
                                                   ),
+                                                  const SizedBox(height: 16),
                                                   TextField(
-                                                    controller: destinoController,
-                                                    decoration: const InputDecoration(
-                                                      labelText: 'Localidad destino',
+                                                    controller:
+                                                        destinoController,
+                                                    decoration:
+                                                        const InputDecoration(
+                                                      labelText:
+                                                          'Localidad destino',
+                                                      labelStyle: TextStyle(
+                                                        fontFamily:
+                                                            'Poppins-Regular',
+                                                        fontSize:
+                                                            14, // Tamaño de fuente del label
+                                                      ),
+                                                    ),
+                                                    style: const TextStyle(
+                                                      fontFamily:
+                                                          'Poppins-Regular',
+                                                      fontSize:
+                                                          14, // Tamaño de fuente del texto ingresado
+                                                      color: Colors
+                                                          .black, // Color del texto ingresado
                                                     ),
                                                   ),
+                                                  const SizedBox(height: 16),
                                                   TextField(
                                                     controller: largoController,
-                                                    decoration: const InputDecoration(
+                                                    decoration:
+                                                        const InputDecoration(
                                                       labelText: 'Largo',
+                                                      labelStyle: TextStyle(
+                                                        fontFamily:
+                                                            'Poppins-Regular',
+                                                        fontSize:
+                                                            14, // Tamaño de fuente del label
+                                                      ),
+                                                    ),
+                                                    style: const TextStyle(
+                                                      fontFamily:
+                                                          'Poppins-Regular',
+                                                      fontSize:
+                                                          14, // Tamaño de fuente del texto ingresado
+                                                      color: Colors
+                                                          .black, // Color del texto ingresado
                                                     ),
                                                   ),
+                                                  const SizedBox(height: 16),
                                                   TextField(
                                                     controller: anchoController,
-                                                    decoration: const InputDecoration(
+                                                    decoration:
+                                                        const InputDecoration(
                                                       labelText: 'Ancho',
+                                                      labelStyle: TextStyle(
+                                                        fontFamily:
+                                                            'Poppins-Regular',
+                                                        fontSize:
+                                                            14, // Tamaño de fuente del label
+                                                      ),
+                                                    ),
+                                                    style: const TextStyle(
+                                                      fontFamily:
+                                                          'Poppins-Regular',
+                                                      fontSize:
+                                                          14, // Tamaño de fuente del texto ingresado
+                                                      color: Colors
+                                                          .black, // Color del texto ingresado
                                                     ),
                                                   ),
+                                                  const SizedBox(height: 16),
                                                   TextField(
                                                     controller: altoController,
-                                                    decoration: const InputDecoration(
+                                                    decoration:
+                                                        const InputDecoration(
                                                       labelText: 'Alto',
+                                                      labelStyle: TextStyle(
+                                                        fontFamily:
+                                                            'Poppins-Regular',
+                                                        fontSize:
+                                                            14, // Tamaño de fuente del label
+                                                      ),
+                                                    ),
+                                                    style: const TextStyle(
+                                                      fontFamily:
+                                                          'Poppins-Regular',
+                                                      fontSize:
+                                                          14, // Tamaño de fuente del texto ingresado
+                                                      color: Colors
+                                                          .black, // Color del texto ingresado
                                                     ),
                                                   ),
+                                                  const SizedBox(height: 16),
                                                   TextField(
                                                     controller: pesoController,
-                                                    decoration: const InputDecoration(
+                                                    decoration:
+                                                        const InputDecoration(
                                                       labelText: 'Peso',
+                                                      labelStyle: TextStyle(
+                                                        fontFamily:
+                                                            'Poppins-Regular',
+                                                        fontSize:
+                                                            14, // Tamaño de fuente del label
+                                                      ),
+                                                    ),
+                                                    style: const TextStyle(
+                                                      fontFamily:
+                                                          'Poppins-Regular',
+                                                      fontSize:
+                                                          14, // Tamaño de fuente del texto ingresado
+                                                      color: Colors
+                                                          .black, // Color del texto ingresado
                                                     ),
                                                   ),
                                                 ],
@@ -905,35 +1204,53 @@ class Cotizar extends StatelessWidget {
                                             ),
                                             actions: [
                                               TextButton(
-                                                child: const Text('Cancelar'),
+                                                child: const Text('Cancelar',
+                                                    style: TextStyle(
+                                                        fontFamily:
+                                                            'Poppins-Regular')),
                                                 onPressed: () {
                                                   Navigator.of(context).pop();
                                                 },
                                               ),
                                               TextButton(
                                                 child: const Text('Guardar',
-                                                    style: TextStyle(color: Colors.blue)),
+                                                    style: TextStyle(
+                                                        color: Colors.blue,
+                                                        fontFamily:
+                                                            'Poppins-Regular')),
                                                 onPressed: () async {
                                                   try {
                                                     // Actualizar cotización en Firebase
-                                                    await FirebaseFirestore.instance
-                                                        .collection('CotizacionData')
+                                                    await FirebaseFirestore
+                                                        .instance
+                                                        .collection(
+                                                            'CotizacionData')
                                                         .doc(cotizacionDoc.id)
                                                         .update({
-                                                      'origen': origenController.text,
-                                                      'destino': destinoController.text,
-                                                      'largo': largoController.text,
-                                                      'ancho': anchoController.text,
-                                                      'alto': altoController.text,
-                                                      'peso': pesoController.text,
+                                                      'origen':
+                                                          origenController.text,
+                                                      'destino':
+                                                          destinoController
+                                                              .text,
+                                                      'largo':
+                                                          largoController.text,
+                                                      'ancho':
+                                                          anchoController.text,
+                                                      'alto':
+                                                          altoController.text,
+                                                      'peso':
+                                                          pesoController.text,
                                                     });
 
-                                                    print('Cotización actualizada');
+                                                    print(
+                                                        'Cotización actualizada');
                                                   } catch (e) {
-                                                    print('Error al actualizar: $e');
+                                                    print(
+                                                        'Error al actualizar: $e');
                                                   } finally {
                                                     // ignore: use_build_context_synchronously
-                                                    Navigator.of(context).pop(); // Cierra el diálogo
+                                                    Navigator.of(context)
+                                                        .pop(); // Cierra el diálogo
                                                   }
                                                 },
                                               ),
@@ -980,15 +1297,104 @@ class Perfil extends StatelessWidget {
         ),
         actions: [
           IconButton(
-            icon: const Icon(
-              Icons.more_vert,
-            ),
+            icon: const Icon(Icons.more_vert),
             onPressed: () {},
           ),
         ],
       ),
+      body: Padding(
+        padding: const EdgeInsets.all(65.0),
+        child: Column(
+          crossAxisAlignment: CrossAxisAlignment.center,
+          children: [
+            // Foto de perfil
+            CircleAvatar(
+              radius: 90,
+              backgroundImage: const AssetImage(
+                  'lib/assets/images/avatar.jpg'), // Reemplaza con la ruta de tu imagen
+              backgroundColor: Colors.grey.shade200,
+            ),
+            const SizedBox(height: 20),
+
+            // Nombre de usuario
+            const Text(
+              'Sophia Castillo Leyton',
+              style: TextStyle(
+                fontFamily: 'Poppins-Medium',
+                fontSize: 20,
+                fontWeight: FontWeight.bold,
+              ),
+            ),
+            const SizedBox(height: 10),
+
+            // Correo electrónico
+            const Text(
+              'correo@gmail.com',
+              style: TextStyle(
+                fontFamily: 'Poppins-Regular',
+                fontSize: 16,
+                color: Colors.grey,
+              ),
+            ),
+            const SizedBox(height: 30),
+
+            // Botón de editar perfil
+            ElevatedButton(
+              onPressed: () {
+                // Acción para editar perfil
+                Navigator.push(
+                  context,
+                  MaterialPageRoute(
+                    builder: (context) => const EditarPerfil(),
+                  ),
+                );
+              },
+              style: ElevatedButton.styleFrom(
+                backgroundColor: Theme.of(context).colorScheme.primary,
+                padding: const EdgeInsets.symmetric(
+                  horizontal: 30,
+                  vertical: 12,
+                ),
+                shape: RoundedRectangleBorder(
+                  borderRadius: BorderRadius.circular(30.0),
+                ),
+              ),
+              child: const Text(
+                'Editar perfil',
+                style: TextStyle(
+                  fontFamily: 'Poppins-Medium',
+                  fontSize: 16,
+                  color: Colors.white,
+                ),
+              ),
+            ),
+          ],
+        ),
+      ),
+    );
+  }
+}
+
+//----------------PANTALLA EDITAR PERFIL----------------
+class EditarPerfil extends StatelessWidget {
+  const EditarPerfil({super.key});
+
+  @override
+  Widget build(BuildContext context) {
+    return Scaffold(
+      appBar: AppBar(
+        backgroundColor: Theme.of(context).colorScheme.primary,
+        toolbarHeight: 64.0,
+        title: const Text(
+          'Editar Perfil',
+          style: TextStyle(
+            fontFamily: 'Poppins-Regular',
+            fontSize: 23,
+          ),
+        ),
+      ),
       body: const Center(
-        child: Text('Perfil'),
+        child: Text('Pantalla de edición :)'),
       ),
     );
   }
