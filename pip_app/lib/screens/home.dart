@@ -280,9 +280,78 @@ class Enviar extends StatelessWidget {
             fontSize: 23,
           ),
         ),
+        actions: [
+          IconButton(
+            icon: const Icon(
+              Icons.more_vert,
+            ),
+            onPressed: () {},
+          ),
+        ],
       ),
-      body: const Center(
-        child: EnviarForm(),
+      body: Padding(
+        padding: const EdgeInsets.all(16.0),
+        child: Column(
+          crossAxisAlignment: CrossAxisAlignment.start,
+          children: [
+            const SizedBox(height: 10),
+            const Text(
+              'Haz tu envío',
+              style: TextStyle(fontSize: 19, fontFamily: 'Poppins-Medium'),
+            ),
+
+            const Text(
+              'Realiza tus envíos individuales y masivos en simples pasos',
+              style: TextStyle(
+                fontFamily: 'Poppins-Regular',
+                fontSize: 16,
+                color: Colors.black,
+              ),
+            ),
+            const SizedBox(height: 28),
+
+            // Imagen entre el texto y el botón
+            Center(
+              child: Image.asset(
+                'lib/assets/images/logo_pip.png',
+                width: 220, // Ajusta el tamaño de la imagen según sea necesario
+                height: 220,
+                fit: BoxFit.contain,
+              ),
+            ),
+
+            const SizedBox(height: 28), // Espaciado entre la imagen y el botón
+
+            ElevatedButton(
+              onPressed: () {
+                Navigator.push(
+                  context,
+                  MaterialPageRoute(
+                    builder: (context) => const EnviarForm(),
+                  ),
+                );
+              },
+              style: ElevatedButton.styleFrom(
+                backgroundColor: Colors.orange,
+                padding: const EdgeInsets.symmetric(
+                  horizontal: 113,
+                  vertical: 10.0,
+                ),
+                shape: RoundedRectangleBorder(
+                  borderRadius: BorderRadius.circular(30.0),
+                ),
+              ),
+              child: const Text(
+                'NUEVO ENVÍO',
+                style: TextStyle(
+                  fontFamily: 'Poppins-Medium',
+                  fontSize: 14,
+                  color: Colors.white,
+                ),
+              ),
+            ),
+          ],
+        ),
       ),
     );
   }
@@ -488,6 +557,7 @@ class Cotizar extends StatelessWidget {
                                                   } catch (e) {
                                                     print('Error al eliminar: $e');
                                                   } finally {
+                                                    // ignore: use_build_context_synchronously
                                                     Navigator.of(context).pop(); // Cierra el diálogo
                                                   }
                                                 },
@@ -591,6 +661,7 @@ class Cotizar extends StatelessWidget {
                                                   } catch (e) {
                                                     print('Error al actualizar: $e');
                                                   } finally {
+                                                    // ignore: use_build_context_synchronously
                                                     Navigator.of(context).pop(); // Cierra el diálogo
                                                   }
                                                 },
@@ -612,7 +683,6 @@ class Cotizar extends StatelessWidget {
                 },
               ),
             ),
-
           ],
         ),
       ),
