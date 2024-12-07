@@ -698,7 +698,7 @@ class Cotizar extends StatelessWidget {
                 ),
               ),
             ),
-            const SizedBox(height: 40),
+            const SizedBox(height: 24),
             const Text(
               'Tus cotizaciones',
               style: TextStyle(fontSize: 19, fontFamily: 'Poppins-Medium'),
