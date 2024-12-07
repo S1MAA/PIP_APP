@@ -335,7 +335,7 @@ class _CotizarFormState extends State<CotizarForm> {
             Center(
               child: SizedBox(
                 width: 330,
-                child: ElevatedButton(
+                child: FilledButton(
                   onPressed: () => _subirDatosYNavegar(context),
                   child: const Text('GENERAR COTIZACIÓN'),
                 ),

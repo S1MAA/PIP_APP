@@ -1,6 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:pip_app/components/appbar.dart'; // Acuérdate que modular estilos es el nombre MI PROYECTO
+import 'package:pip_app/components/enviarform.dart';
 import 'package:pip_app/components/formulario.dart';
 import 'package:pip_app/components/cotizarform.dart';
 
@@ -279,7 +280,7 @@ class Enviar extends StatelessWidget {
         ),
       ),
       body: const Center(
-        child: Text('Enviar'),
+        child: EnviarForm(),
       ),
     );
   }
