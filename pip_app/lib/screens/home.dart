@@ -1,3 +1,5 @@
+// ignore_for_file: avoid_print
+
 import 'package:flutter/material.dart';
 import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:pip_app/components/appbar.dart'; // Acuérdate que modular estilos es el nombre MI PROYECTO
@@ -451,48 +453,155 @@ class Cotizar extends StatelessWidget {
                                   ],
                                 ),
                               ),
-                              // Botón de eliminar
-                              IconButton(
-                                icon: const Icon(Icons.delete, color: Colors.red),
-                                onPressed: () {
-                                  showDialog(
-                                    context: context,
-                                    builder: (BuildContext context) {
-                                      return AlertDialog(
-                                        title: const Text('Eliminar cotización'),
-                                        content: const Text(
-                                            '¿Estás seguro de que deseas eliminar esta cotización? Esta acción no se puede deshacer.'),
-                                        actions: [
-                                          TextButton(
-                                            child: const Text('Cancelar'),
-                                            onPressed: () {
-                                              Navigator.of(context).pop();
-                                            },
-                                          ),
-                                          TextButton(
-                                            child: const Text('Eliminar',
-                                                style: TextStyle(color: Colors.red)),
-                                            onPressed: () async {
-                                              try {
-                                                // Eliminar cotización de Firebase
-                                                await FirebaseFirestore.instance
-                                                    .collection('CotizacionData')
-                                                    .doc(cotizacionDoc.id)
-                                                    .delete();
+                              // Botones de eliminar y editar
+                              Column(
+                                children: [
+                                  IconButton(
+                                    icon: const Icon(Icons.delete, color: Colors.red),
+                                    onPressed: () {
+                                      showDialog(
+                                        context: context,
+                                        builder: (BuildContext context) {
+                                          return AlertDialog(
+                                            title: const Text('Eliminar cotización'),
+                                            content: const Text(
+                                                '¿Estás seguro de que deseas eliminar esta cotización? Esta acción no se puede deshacer.'),
+                                            actions: [
+                                              TextButton(
+                                                child: const Text('Cancelar'),
+                                                onPressed: () {
+                                                  Navigator.of(context).pop();
+                                                },
+                                              ),
+                                              TextButton(
+                                                child: const Text('Eliminar',
+                                                    style: TextStyle(color: Colors.red)),
+                                                onPressed: () async {
+                                                  try {
+                                                    // Eliminar cotización de Firebase
+                                                    await FirebaseFirestore.instance
+                                                        .collection('CotizacionData')
+                                                        .doc(cotizacionDoc.id)
+                                                        .delete();
 
-                                                print('Cotización eliminada');
-                                              } catch (e) {
-                                                print('Error al eliminar: $e');
-                                              } finally {
-                                                Navigator.of(context).pop(); // Cierra el diálogo
-                                              }
-                                            },
-                                          ),
-                                        ],
+                                                    print('Cotización eliminada');
+                                                  } catch (e) {
+                                                    print('Error al eliminar: $e');
+                                                  } finally {
+                                                    Navigator.of(context).pop(); // Cierra el diálogo
+                                                  }
+                                                },
+                                              ),
+                                            ],
+                                          );
+                                        },
                                       );
                                     },
-                                  );
-                                },
+                                  ),
+                                  IconButton(
+                                    icon: const Icon(Icons.edit, color: Colors.blue),
+                                    onPressed: () {
+                                      showDialog(
+                                        context: context,
+                                        builder: (BuildContext context) {
+                                          // Aquí se crea el diálogo para editar
+                                          TextEditingController origenController =
+                                              TextEditingController(text: cotizacion['origen']);
+                                          TextEditingController destinoController =
+                                              TextEditingController(text: cotizacion['destino']);
+                                          TextEditingController largoController =
+                                              TextEditingController(text: cotizacion['largo']);
+                                          TextEditingController anchoController =
+                                              TextEditingController(text: cotizacion['ancho']);
+                                          TextEditingController altoController =
+                                              TextEditingController(text: cotizacion['alto']);
+                                          TextEditingController pesoController =
+                                              TextEditingController(text: cotizacion['peso']);
+
+                                          return AlertDialog(
+                                            title: const Text('Editar cotización'),
+                                            content: SingleChildScrollView(
+                                              child: Column(
+                                                children: [
+                                                  TextField(
+                                                    controller: origenController,
+                                                    decoration: const InputDecoration(
+                                                      labelText: 'Localidad origen',
+                                                    ),
+                                                  ),
+                                                  TextField(
+                                                    controller: destinoController,
+                                                    decoration: const InputDecoration(
+                                                      labelText: 'Localidad destino',
+                                                    ),
+                                                  ),
+                                                  TextField(
+                                                    controller: largoController,
+                                                    decoration: const InputDecoration(
+                                                      labelText: 'Largo',
+                                                    ),
+                                                  ),
+                                                  TextField(
+                                                    controller: anchoController,
+                                                    decoration: const InputDecoration(
+                                                      labelText: 'Ancho',
+                                                    ),
+                                                  ),
+                                                  TextField(
+                                                    controller: altoController,
+                                                    decoration: const InputDecoration(
+                                                      labelText: 'Alto',
+                                                    ),
+                                                  ),
+                                                  TextField(
+                                                    controller: pesoController,
+                                                    decoration: const InputDecoration(
+                                                      labelText: 'Peso',
+                                                    ),
+                                                  ),
+                                                ],
+                                              ),
+                                            ),
+                                            actions: [
+                                              TextButton(
+                                                child: const Text('Cancelar'),
+                                                onPressed: () {
+                                                  Navigator.of(context).pop();
+                                                },
+                                              ),
+                                              TextButton(
+                                                child: const Text('Guardar',
+                                                    style: TextStyle(color: Colors.blue)),
+                                                onPressed: () async {
+                                                  try {
+                                                    // Actualizar cotización en Firebase
+                                                    await FirebaseFirestore.instance
+                                                        .collection('CotizacionData')
+                                                        .doc(cotizacionDoc.id)
+                                                        .update({
+                                                      'origen': origenController.text,
+                                                      'destino': destinoController.text,
+                                                      'largo': largoController.text,
+                                                      'ancho': anchoController.text,
+                                                      'alto': altoController.text,
+                                                      'peso': pesoController.text,
+                                                    });
+
+                                                    print('Cotización actualizada');
+                                                  } catch (e) {
+                                                    print('Error al actualizar: $e');
+                                                  } finally {
+                                                    Navigator.of(context).pop(); // Cierra el diálogo
+                                                  }
+                                                },
+                                              ),
+                                            ],
+                                          );
+                                        },
+                                      );
+                                    },
+                                  ),
+                                ],
                               ),
                             ],
                           ),
@@ -503,6 +612,7 @@ class Cotizar extends StatelessWidget {
                 },
               ),
             ),
+
           ],
         ),
       ),
