@@ -297,7 +297,7 @@ class Cotizar extends StatelessWidget {
         backgroundColor: Theme.of(context).colorScheme.primary,
         toolbarHeight: 64.0,
         title: const Text(
-          'Cotizar',
+          'Enviar',
           style: TextStyle(
             fontFamily: 'Poppins-Regular',
             fontSize: 23,
@@ -312,9 +312,161 @@ class Cotizar extends StatelessWidget {
           ),
         ],
       ),
-      body: const Center(
-        // Cambié FormularioScreen por CotizarForm
-        child: CotizarForm(),
+      body: Padding(
+        padding: const EdgeInsets.all(16.0),
+        child: Column(
+          crossAxisAlignment: CrossAxisAlignment.start,
+          children: [
+            const Text(
+              'Haz una cotización',
+              style: TextStyle(fontSize: 19, fontFamily: 'Poppins-Medium'),
+            ),
+            const SizedBox(height: 8),
+            const Text(
+              'Genera tus nuevas cotizaciones en simples pasos',
+              style: TextStyle(
+                fontFamily: 'Poppins-Regular',
+                fontSize: 16,
+                color: Colors.black,
+              ),
+            ),
+            const SizedBox(height: 28), //espacio entre texto y boton
+            ElevatedButton(
+              onPressed: () {
+                Navigator.push(
+                  context,
+                  MaterialPageRoute(
+                    builder: (context) => const CotizarForm(),
+                  ),
+                );
+              },
+              style: ElevatedButton.styleFrom(
+                backgroundColor: Colors.orange,
+                padding: const EdgeInsets.symmetric(
+                  horizontal: 113,
+                  vertical: 10.0,
+                ),
+                shape: RoundedRectangleBorder(
+                  borderRadius: BorderRadius.circular(30.0),
+                ),
+              ),
+              child: const Text(
+                '+ COTIZACIÓN',
+                style: TextStyle(
+                  fontFamily: 'Poppins-Medium',
+                  fontSize: 14,
+                  color: Colors.white,
+                ),
+              ),
+            ),
+            const SizedBox(height: 40),
+            const Text(
+              'Tus cotizaciones',
+              style: TextStyle(fontSize: 19, fontFamily: 'Poppins-Medium'),
+            ),
+            const SizedBox(height: 8),
+            //Respuesta formulario cotizaciones
+            // StreamBuilder para mostrar las cotizaciones en tiempo real
+            Expanded(
+              child: StreamBuilder<QuerySnapshot>(
+                stream: FirebaseFirestore.instance
+                    .collection(
+                        'CotizacionData') // Tu colección de cotizaciones
+                    .orderBy('timestamp',
+                        descending: true) // Ordenar por tiempo
+                    .snapshots(),
+                builder: (context, snapshot) {
+                  if (snapshot.connectionState == ConnectionState.waiting) {
+                    return const Center(child: CircularProgressIndicator());
+                  }
+
+                  if (snapshot.hasError) {
+                    return Center(child: Text('Error: ${snapshot.error}'));
+                  }
+
+                  final cotizaciones = snapshot.data!.docs;
+
+                  return ListView.builder(
+                    itemCount: cotizaciones.length,
+                    itemBuilder: (context, index) {
+                      final cotizacion =
+                          cotizaciones[index].data() as Map<String, dynamic>;
+
+                      return Card(
+                        margin: const EdgeInsets.symmetric(
+                            vertical: 8, horizontal: 16),
+                        elevation: 2,
+                        shape: RoundedRectangleBorder(
+                          borderRadius: BorderRadius.circular(12),
+                        ),
+                        color: Colors.white,
+                        child: Padding(
+                          padding: const EdgeInsets.all(16.0),
+                          child: Row(
+                            children: [
+                              // Imagen
+                              Container(
+                                width: 50,
+                                height: 50,
+                                decoration: BoxDecoration(
+                                  color: Colors.orange[100],
+                                  borderRadius: BorderRadius.circular(8),
+                                ),
+                                child: const Icon(
+                                  Icons.local_shipping,
+                                  color: Colors.orange,
+                                  size: 30,
+                                ),
+                              ),
+                              const SizedBox(width: 16),
+                              // Texto en el centro
+                              Expanded(
+                                child: Column(
+                                  crossAxisAlignment: CrossAxisAlignment.start,
+                                  children: [
+                                    const Text(
+                                      'Valor cotización \$7.990',
+                                      style: TextStyle(
+                                        fontSize: 16,
+                                        fontWeight: FontWeight.bold,
+                                      ),
+                                    ),
+                                    const SizedBox(height: 4),
+                                    Text(
+                                      'Localidad origen: ${cotizacion['origen']}',
+                                      style: const TextStyle(fontSize: 14),
+                                    ),
+                                    Text(
+                                      'Localidad destino: ${cotizacion['destino']}',
+                                      style: const TextStyle(fontSize: 14),
+                                    ),
+                                    Text(
+                                      'Dimensiones: ${cotizacion['largo']} x ${cotizacion['ancho']} x ${cotizacion['alto']}',
+                                      style: const TextStyle(fontSize: 14),
+                                    ),
+                                    Text(
+                                      'Peso: ${cotizacion['peso']}',
+                                      style: const TextStyle(fontSize: 14),
+                                    ),
+                                  ],
+                                ),
+                              ),
+                              const Icon(
+                                Icons.arrow_forward_ios,
+                                size: 16,
+                                color: Colors.grey,
+                              ),
+                            ],
+                          ),
+                        ),
+                      );
+                    },
+                  );
+                },
+              ),
+            ),
+          ],
+        ),
       ),
     );
   }

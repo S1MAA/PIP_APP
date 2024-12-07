@@ -1,6 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:flutter/foundation.dart';
+import 'package:pip_app/screens/home.dart';
 
 class CotizarForm extends StatefulWidget {
   const CotizarForm({super.key});
@@ -52,10 +53,17 @@ class _CotizarFormState extends State<CotizarForm> {
         'timestamp': FieldValue.serverTimestamp(), // Fecha/hora del servidor
       });
 
-      // Mostrar mensaje de éxito
+
+      // ignore: use_build_context_synchronously
+      ScaffoldMessenger.of(context).showSnackBar(
+        const SnackBar(content: Text('Datos guardados exitosamente')),
+      );
+
       if (context.mounted) {
-        ScaffoldMessenger.of(context).showSnackBar(
-          const SnackBar(content: Text('Datos guardados exitosamente')),
+        Navigator.of(context).pop(
+          MaterialPageRoute(
+            builder: (context) => const Cotizar(),
+          ),
         );
       }
     } catch (e) {
@@ -78,12 +86,30 @@ class _CotizarFormState extends State<CotizarForm> {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
+      appBar: AppBar(
+        backgroundColor: Theme.of(context).colorScheme.primary,
+        toolbarHeight: 64.0,
+        title: const Text(
+          'Enviar',
+          style: TextStyle(
+            fontFamily: 'Poppins-Regular',
+            fontSize: 23,
+          ),
+        ),
+        actions: [
+          IconButton(
+            icon: const Icon(
+              Icons.more_vert,
+            ),
+            onPressed: () {},
+          ),
+        ],
+      ),
       body: SingleChildScrollView(
         padding: const EdgeInsets.all(16.0),
         child: Column(
           crossAxisAlignment: CrossAxisAlignment.start,
           children: [
-
             Row(
               children: [
                 Expanded(
@@ -95,17 +121,20 @@ class _CotizarFormState extends State<CotizarForm> {
                         const SizedBox(height: 24),
                         const Text(
                           'Origen y destino',
-                          style: TextStyle(fontSize: 19, fontFamily: 'Poppins-Medium'),
+                          style: TextStyle(
+                              fontSize: 19, fontFamily: 'Poppins-Medium'),
                         ),
                         const SizedBox(height: 16),
                         const Text(
                           'Selecciona la localidad desde y hacia donde envías',
-                          style: TextStyle(fontSize: 16, fontFamily: 'Poppins-Regular'),
+                          style: TextStyle(
+                              fontSize: 16, fontFamily: 'Poppins-Regular'),
                         ),
                         const SizedBox(height: 12),
                         const Text(
                           'Origen',
-                          style: TextStyle(fontSize: 16, fontFamily: 'Poppins-Regular'),
+                          style: TextStyle(
+                              fontSize: 16, fontFamily: 'Poppins-Regular'),
                         ),
                         const SizedBox(height: 8),
                         TextFormField(
@@ -115,7 +144,7 @@ class _CotizarFormState extends State<CotizarForm> {
                             labelStyle: TextStyle(
                               fontFamily: 'Poppins-Regular',
                               fontSize: 12,
-                              color: Color.fromARGB(255, 196, 196, 196),
+                              color: Color.fromARGB(255, 147, 147, 147),
                             ),
                             errorStyle: TextStyle(
                               fontSize: 12,
@@ -132,7 +161,8 @@ class _CotizarFormState extends State<CotizarForm> {
                         const SizedBox(height: 16),
                         const Text(
                           'Destino',
-                          style: TextStyle(fontSize: 16, fontFamily: 'Poppins-Regular'),
+                          style: TextStyle(
+                              fontSize: 16, fontFamily: 'Poppins-Regular'),
                         ),
                         const SizedBox(height: 8),
                         TextFormField(
@@ -142,7 +172,7 @@ class _CotizarFormState extends State<CotizarForm> {
                             labelStyle: TextStyle(
                               fontFamily: 'Poppins-Regular',
                               fontSize: 12,
-                              color: Color.fromARGB(255, 196, 196, 196),
+                              color: Color.fromARGB(255, 147, 147, 147),
                             ),
                             errorStyle: TextStyle(
                               fontSize: 12,
@@ -163,7 +193,6 @@ class _CotizarFormState extends State<CotizarForm> {
                 ),
               ],
             ),
-
             Center(
               child: Column(
                 mainAxisAlignment: MainAxisAlignment.center,
@@ -177,7 +206,7 @@ class _CotizarFormState extends State<CotizarForm> {
                     child: ClipRRect(
                       borderRadius: BorderRadius.circular(12),
                       child: Image.asset(
-                        'lib/assets/images/paquetelarge.png',                       
+                        'lib/assets/images/paquetelarge.png',
                         width: 315,
                       ),
                     ),
@@ -185,10 +214,7 @@ class _CotizarFormState extends State<CotizarForm> {
                 ],
               ),
             ),
-
             const SizedBox(height: 20),
-
-
             const Text(
               'Detalles de envío',
               style: TextStyle(fontSize: 19, fontFamily: 'Poppins-Medium'),
@@ -198,23 +224,26 @@ class _CotizarFormState extends State<CotizarForm> {
               style: TextStyle(fontSize: 16, fontFamily: 'Poppins-Regular'),
             ),
             const SizedBox(height: 20),
-
             Row(
               children: [
                 Expanded(
                   child: Column(
                     crossAxisAlignment: CrossAxisAlignment.start,
                     children: [
-                      const Text('Peso'),
+                      const Text(
+                        'Peso',
+                        style: TextStyle(
+                            fontSize: 16, fontFamily: 'Poppins-Regular'),
+                      ),
                       const SizedBox(height: 8),
                       TextFormField(
                         controller: _pesoController,
                         decoration: const InputDecoration(
-                          labelText: 'Ej 10 (cm)',
+                          labelText: 'Ej 10 (kg)',
                           labelStyle: TextStyle(
                             fontFamily: 'Poppins-Regular',
                             fontSize: 12,
-                            color: Color.fromARGB(255, 196, 196, 196),
+                            color: Color.fromARGB(255, 147, 147, 147),
                           ),
                           errorStyle: TextStyle(
                             fontSize: 12,
@@ -236,16 +265,20 @@ class _CotizarFormState extends State<CotizarForm> {
                   child: Column(
                     crossAxisAlignment: CrossAxisAlignment.start,
                     children: [
-                      const Text('Largo'),
+                      const Text(
+                        'Largo',
+                        style: TextStyle(
+                            fontSize: 16, fontFamily: 'Poppins-Regular'),
+                      ),
                       const SizedBox(height: 8),
                       TextFormField(
                         controller: _largoController,
                         decoration: const InputDecoration(
-                          labelText: 'Ej 10 (kg)',
+                          labelText: 'Ej 10 (cm)',
                           labelStyle: TextStyle(
                             fontFamily: 'Poppins-Regular',
                             fontSize: 12,
-                            color: Color.fromARGB(255, 196, 196, 196),
+                            color: Color.fromARGB(255, 147, 147, 147),
                           ),
                           errorStyle: TextStyle(
                             fontSize: 12,
@@ -271,7 +304,11 @@ class _CotizarFormState extends State<CotizarForm> {
                   child: Column(
                     crossAxisAlignment: CrossAxisAlignment.start,
                     children: [
-                      const Text('Ancho'),
+                      const Text(
+                        'Ancho',
+                        style: TextStyle(
+                            fontSize: 16, fontFamily: 'Poppins-Regular'),
+                      ),
                       const SizedBox(height: 8),
                       TextFormField(
                         controller: _anchoController,
@@ -280,7 +317,7 @@ class _CotizarFormState extends State<CotizarForm> {
                           labelStyle: TextStyle(
                             fontFamily: 'Poppins-Regular',
                             fontSize: 12,
-                            color: Color.fromARGB(255, 196, 196, 196),
+                            color: Color.fromARGB(255, 147, 147, 147),
                           ),
                           errorStyle: TextStyle(
                             fontSize: 12,
@@ -302,7 +339,11 @@ class _CotizarFormState extends State<CotizarForm> {
                   child: Column(
                     crossAxisAlignment: CrossAxisAlignment.start,
                     children: [
-                      const Text('Alto'),
+                      const Text(
+                        'Alto',
+                        style: TextStyle(
+                            fontSize: 16, fontFamily: 'Poppins-Regular'),
+                      ),
                       const SizedBox(height: 8),
                       TextFormField(
                         controller: _altoController,
@@ -311,7 +352,7 @@ class _CotizarFormState extends State<CotizarForm> {
                           labelStyle: TextStyle(
                             fontFamily: 'Poppins-Regular',
                             fontSize: 12,
-                            color: Color.fromARGB(255, 196, 196, 196),
+                            color: Color.fromARGB(255, 147, 147, 147),
                           ),
                           errorStyle: TextStyle(
                             fontSize: 12,
@@ -331,13 +372,22 @@ class _CotizarFormState extends State<CotizarForm> {
               ],
             ),
             const SizedBox(height: 30),
-
             Center(
               child: SizedBox(
                 width: 330,
                 child: FilledButton(
                   onPressed: () => _subirDatosYNavegar(context),
-                  child: const Text('GENERAR COTIZACIÓN'),
+                  style: ElevatedButton.styleFrom(
+                    backgroundColor: Theme.of(context).colorScheme.secondary,
+                    foregroundColor: Colors.white,
+                  ),
+                  child: const Text(
+                    'GENERAR COTIZACIÓN',
+                    style: TextStyle(
+                      fontSize: 14,
+                      fontFamily: 'Poppins-Medium',
+                    ),
+                  ),
                 ),
               ),
             ),

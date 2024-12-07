@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:cloud_firestore/cloud_firestore.dart';
+import 'package:pip_app/screens/home.dart';
 
 
 class EnviarForm extends StatefulWidget {
@@ -58,10 +59,18 @@ class _EnviarFormState extends State<EnviarForm> {
         'timestamp': FieldValue.serverTimestamp(), // Fecha/hora del servidor
       });
 
+      // ignore: use_build_context_synchronously
+      ScaffoldMessenger.of(context).showSnackBar(
+        const SnackBar(content: Text('Datos guardados exitosamente')),
+      );
+
+
       // Mostrar mensaje de éxito
       if (context.mounted) {
-        ScaffoldMessenger.of(context).showSnackBar(
-          const SnackBar(content: Text('Datos guardados exitosamente')),
+        Navigator.of(context).pop(
+          MaterialPageRoute(
+            builder: (context) => const Enviar(),
+          ),
         );
       }
     } catch (e) {

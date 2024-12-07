@@ -28,6 +28,7 @@ class _FormularioScreenState extends State<FormularioScreen> {
         const SnackBar(
           content: Text('Por favor, complete todos los campos.'),
           duration: Duration(seconds: 3), //Duración del snackbar
+          backgroundColor: Colors.red,
         ),
       );
       return; // Detener ejecución si hay errores
@@ -48,7 +49,7 @@ class _FormularioScreenState extends State<FormularioScreen> {
 
       // Navegar a la pantalla Home
       if (context.mounted) {
-        Navigator.of(context).pushReplacement(
+        Navigator.of(context).pop(
           MaterialPageRoute(
             builder: (context) => const HomeScreen(),
           ),
@@ -125,7 +126,7 @@ class _FormularioScreenState extends State<FormularioScreen> {
                         foregroundColor: Colors.white,
                       ),
                       child: const Text(
-                        'GENERAR COTIZACIÓN',
+                        'LOCALIZAR ENVÍO',
                         style: TextStyle(
                           fontSize: 14,
                           fontFamily: 'Poppins-Medium',
