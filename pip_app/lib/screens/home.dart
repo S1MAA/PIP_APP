@@ -428,25 +428,25 @@ class Cotizar extends StatelessWidget {
                                       'Valor cotización \$7.990',
                                       style: TextStyle(
                                         fontSize: 16,
-                                        fontWeight: FontWeight.bold,
+                                        fontFamily: 'Poppins-Bold'                                     
                                       ),
                                     ),
                                     const SizedBox(height: 4),
                                     Text(
                                       'Localidad origen: ${cotizacion['origen']}',
-                                      style: const TextStyle(fontSize: 14),
+                                      style: const TextStyle(fontSize: 14, fontFamily: 'Poppins-Regular'),                              
                                     ),
                                     Text(
                                       'Localidad destino: ${cotizacion['destino']}',
-                                      style: const TextStyle(fontSize: 14),
+                                      style: const TextStyle(fontSize: 14, fontFamily: 'Poppins-Regular'),
                                     ),
                                     Text(
                                       'Dimensiones: ${cotizacion['largo']} x ${cotizacion['ancho']} x ${cotizacion['alto']}',
-                                      style: const TextStyle(fontSize: 14),
+                                      style: const TextStyle(fontSize: 14, fontFamily: 'Poppins-Regular'),
                                     ),
                                     Text(
                                       'Peso: ${cotizacion['peso']}',
-                                      style: const TextStyle(fontSize: 14),
+                                      style: const TextStyle(fontSize: 14, fontFamily: 'Poppins-Regular'),
                                     ),
                                   ],
                                 ),

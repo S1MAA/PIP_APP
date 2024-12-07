@@ -90,7 +90,7 @@ class _CotizarFormState extends State<CotizarForm> {
         backgroundColor: Theme.of(context).colorScheme.primary,
         toolbarHeight: 64.0,
         title: const Text(
-          'Enviar',
+          'Cotizar',
           style: TextStyle(
             fontFamily: 'Poppins-Regular',
             fontSize: 23,
