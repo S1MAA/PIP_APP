@@ -297,7 +297,7 @@ class Cotizar extends StatelessWidget {
         backgroundColor: Theme.of(context).colorScheme.primary,
         toolbarHeight: 64.0,
         title: const Text(
-          'Enviar',
+          'Cotizar',
           style: TextStyle(
             fontFamily: 'Poppins-Regular',
             fontSize: 23,
@@ -370,10 +370,8 @@ class Cotizar extends StatelessWidget {
             Expanded(
               child: StreamBuilder<QuerySnapshot>(
                 stream: FirebaseFirestore.instance
-                    .collection(
-                        'CotizacionData') // Tu colección de cotizaciones
-                    .orderBy('timestamp',
-                        descending: true) // Ordenar por tiempo
+                    .collection('CotizacionData') // Tu colección de cotizaciones
+                    .orderBy('timestamp', descending: true) // Ordenar por tiempo
                     .snapshots(),
                 builder: (context, snapshot) {
                   if (snapshot.connectionState == ConnectionState.waiting) {
@@ -389,12 +387,12 @@ class Cotizar extends StatelessWidget {
                   return ListView.builder(
                     itemCount: cotizaciones.length,
                     itemBuilder: (context, index) {
+                      final cotizacionDoc = cotizaciones[index];
                       final cotizacion =
-                          cotizaciones[index].data() as Map<String, dynamic>;
+                          cotizacionDoc.data() as Map<String, dynamic>;
 
                       return Card(
-                        margin: const EdgeInsets.symmetric(
-                            vertical: 8, horizontal: 16),
+                        margin: const EdgeInsets.symmetric(vertical: 8, horizontal: 16),
                         elevation: 2,
                         shape: RoundedRectangleBorder(
                           borderRadius: BorderRadius.circular(12),
@@ -427,34 +425,74 @@ class Cotizar extends StatelessWidget {
                                     const Text(
                                       'Valor cotización \$7.990',
                                       style: TextStyle(
-                                        fontSize: 16,
-                                        fontFamily: 'Poppins-Bold'                                     
-                                      ),
+                                          fontSize: 16, fontFamily: 'Poppins-Bold'),
                                     ),
                                     const SizedBox(height: 4),
                                     Text(
                                       'Localidad origen: ${cotizacion['origen']}',
-                                      style: const TextStyle(fontSize: 14, fontFamily: 'Poppins-Regular'),                              
+                                      style: const TextStyle(
+                                          fontSize: 14, fontFamily: 'Poppins-Regular'),
                                     ),
                                     Text(
                                       'Localidad destino: ${cotizacion['destino']}',
-                                      style: const TextStyle(fontSize: 14, fontFamily: 'Poppins-Regular'),
+                                      style: const TextStyle(
+                                          fontSize: 14, fontFamily: 'Poppins-Regular'),
                                     ),
                                     Text(
                                       'Dimensiones: ${cotizacion['largo']} x ${cotizacion['ancho']} x ${cotizacion['alto']}',
-                                      style: const TextStyle(fontSize: 14, fontFamily: 'Poppins-Regular'),
+                                      style: const TextStyle(
+                                          fontSize: 14, fontFamily: 'Poppins-Regular'),
                                     ),
                                     Text(
                                       'Peso: ${cotizacion['peso']}',
-                                      style: const TextStyle(fontSize: 14, fontFamily: 'Poppins-Regular'),
+                                      style: const TextStyle(
+                                          fontSize: 14, fontFamily: 'Poppins-Regular'),
                                     ),
                                   ],
                                 ),
                               ),
-                              const Icon(
-                                Icons.arrow_forward_ios,
-                                size: 16,
-                                color: Colors.grey,
+                              // Botón de eliminar
+                              IconButton(
+                                icon: const Icon(Icons.delete, color: Colors.red),
+                                onPressed: () {
+                                  showDialog(
+                                    context: context,
+                                    builder: (BuildContext context) {
+                                      return AlertDialog(
+                                        title: const Text('Eliminar cotización'),
+                                        content: const Text(
+                                            '¿Estás seguro de que deseas eliminar esta cotización? Esta acción no se puede deshacer.'),
+                                        actions: [
+                                          TextButton(
+                                            child: const Text('Cancelar'),
+                                            onPressed: () {
+                                              Navigator.of(context).pop();
+                                            },
+                                          ),
+                                          TextButton(
+                                            child: const Text('Eliminar',
+                                                style: TextStyle(color: Colors.red)),
+                                            onPressed: () async {
+                                              try {
+                                                // Eliminar cotización de Firebase
+                                                await FirebaseFirestore.instance
+                                                    .collection('CotizacionData')
+                                                    .doc(cotizacionDoc.id)
+                                                    .delete();
+
+                                                print('Cotización eliminada');
+                                              } catch (e) {
+                                                print('Error al eliminar: $e');
+                                              } finally {
+                                                Navigator.of(context).pop(); // Cierra el diálogo
+                                              }
+                                            },
+                                          ),
+                                        ],
+                                      );
+                                    },
+                                  );
+                                },
                               ),
                             ],
                           ),
